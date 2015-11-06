@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"name": "Project",
+			"path": ".",
+			"follow_symlinks": true,
+			"folder_exclude_patterns": ["*"],
+			"file_exclude_patterns": ["*.sublime-project"]
+		},
+		{
+			"name": "Documents",
+			"path": "src",
+			"follow_symlinks": true,
+			"folder_exclude_patterns": ["src/images"]
+		},
+		{
+			"name": "Images",
+			"path": "src/images",
+			"follow_symlinks": true
+		}
+	]
+}

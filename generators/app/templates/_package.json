@@ -1,8 +1,19 @@
 {
-  "name": "package",
+  "name": "<%= projectName %>",
   "version": "0.1.0",
+  "description": "<%= projectDescription %>",
+  "repository": null,
+  "readme": "README.md",
+  "author": {
+    "name": "<%= authorName %>",
+    "email": "<%= authorEmail %>"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
-    "gulp": "*",
-    "mdproc": "*"
+    "del": "^1.0.0",
+    "gulp": "^3.0.0",
+    "gulp-watch": "^4.0.0",
+    "run-sequence": "^1.1.0",
+    "mdproc": "^0.1.0"
   }
 }
