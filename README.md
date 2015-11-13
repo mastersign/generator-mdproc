@@ -1,6 +1,6 @@
 # generator-mdproc [![Build Status](https://secure.travis-ci.org/mastersign/generator-mdproc.png?branch=master)](https://travis-ci.org/mastersign/generator-mdproc)
 
-> [Yeoman](http://yeoman.io) generator for a Markdown project using MdProc
+> [Yeoman](http://yeoman.io) generator for a Markdown project using [_MdProc_](https://github.com/mastersign/mdproc)
 
 ## Getting Started
 
