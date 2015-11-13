@@ -5,7 +5,6 @@ var fs = require('fs');
 var del = require('del');
 var gulp = require('gulp');
 var watch = require('gulp-watch');
-var runSequence = require('run-sequence');
 var mdproc = require('mdproc');
 
 var cfg = require('./config.json');
@@ -28,10 +27,6 @@ gulp.task('prepare-target-dir', function () {
 	if (!fs.existsSync(cfg.target_dir)) {
 		fs.mkdirSync(cfg.target_dir);
 	}
-});
-
-gulp.task('remove-temps', function () {
-	return del(cfg.target_dir + '/*_tmp');
 });
 
 gulp.task('copy-images', function () {
@@ -70,15 +65,9 @@ gulp.task('pdf', ['prepare-target-dir', 'copy-images'],
 			customTransformation: preProcess
 		}));
 <% } %>
-gulp.task('all', function (cb) {
-	runSequence(['html', 'docx'<% if (supportPdf) { %>, 'tex', 'pdf'<% } %>], 'remove-temps',
-		cb);
-});
+gulp.task('all', ['html', 'docx'<% if (supportPdf) { %>, 'tex', 'pdf'<% } %>]);
 
-gulp.task('autobuild', function (cb) {
-	runSequence(cfg.default_formats, 'remove-temps',
-		cb);
-});
+gulp.task('autobuild', cfg.default_formats);
 
 gulp.task('watch', ['autobuild'], function () {
 	watch(cfg.watch_files,
