@@ -10,7 +10,6 @@
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
-    "del": "^1.0.0",
     "gulp": "^3.0.0",
     "gulp-watch": "^4.0.0",
     "mdproc": "^0.1.0"

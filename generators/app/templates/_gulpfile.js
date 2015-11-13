@@ -2,7 +2,7 @@
 
 var path = require('path');
 var fs = require('fs');
-var del = require('del');
+
 var gulp = require('gulp');
 var watch = require('gulp-watch');
 var mdproc = require('mdproc');
