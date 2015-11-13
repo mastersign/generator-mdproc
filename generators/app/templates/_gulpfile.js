@@ -23,10 +23,14 @@ var preProcess = function(mdtext) {
 	return mdtext;
 };
 
-gulp.task('prepare-target-dir', function () {
-	if (!fs.existsSync(cfg.target_dir)) {
-		fs.mkdirSync(cfg.target_dir);
-	}
+gulp.task('prepare-target-dir', function (cb) {
+	fs.access(cfg.target_dir, fs.R_OK | fs.W_OK, function (err) {
+		if (err) {
+			fs.mkdir(cfg.target_dir, cb);
+		} else {
+			cb();
+		}
+	});
 });
 
 gulp.task('copy-images', function () {
