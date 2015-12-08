@@ -1,0 +1,23 @@
+{
+	"target_dir": "out",
+	"default_formats": [ "html" ],
+	"markdown_files": [
+		"README.md",
+		"src/index.md"
+	],
+	"watch_files": [
+		"README.md",
+		"src/*.md",
+		"src/log/*/*.md"
+	],
+	"image_files": [
+		"src/images/*"
+	]<% if (supportPdf) { %>,
+	"latex_vars": {
+		"fontsize": "11pt",
+		"papersize": "a4paper",
+		"linkColor": "ForestGreen",
+		"classoption": [],
+		"header-includes": [ "\\pagestyle{headings}" ]
+	}<% } %>
+}

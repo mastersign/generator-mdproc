@@ -15,6 +15,13 @@ module.exports = yeoman.generators.Base.extend({
 
     var prompts = [
       {
+        type: 'list',
+        name: 'projectType',
+        message: 'Which kind of project do you want?',
+        choices: ['Minimal', 'Personal Log'],
+        default: 0
+      },
+      {
         type: 'input',
         name: 'projectName',
         message: 'Your project name',
@@ -60,6 +67,18 @@ module.exports = yeoman.generators.Base.extend({
     ];
 
     this.prompt(prompts, function (props) {
+      props.projectSubTitle = 'Documentation';
+      props.needsGlob = false;
+      props.needsLodash = false;
+      props.needsRunSequence = false;
+      props.needsDateFormat = false;
+      if (props.projectType === 'Personal Log') {
+        props.projectSubTitle = 'One Entry every Day'
+        props.needsGlob = true;
+        props.needsLodash = true;
+        props.needsRunSequence = true;
+        props.needsDateFormat = true;
+      }
       this.props = props;
       // To access props later use this.props.someOption;
       done();
@@ -84,6 +103,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     projectfiles: function () {
+
       this.fs.copy(
         this.templatePath('editorconfig'),
         this.destinationPath('.editorconfig')
@@ -107,25 +127,50 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('gulpfile.js'),
         this.props
       );
-      this.fs.copyTpl(
-        this.templatePath('_config.json'),
-        this.destinationPath('config.json'),
-        this.props
-      );
-      this.fs.copyTpl(
-        this.templatePath('index.md'),
-        this.destinationPath('src/index.md'),
-        this.props
-      );
-      this.fs.copyTpl(
-        this.templatePath('chapter_one.inc.md'),
-        this.destinationPath('src/chapters/one.inc.md'),
-        this.props
-      );
+
+      if (this.props.projectType === 'Personal Log') {
+        this.fs.copyTpl(
+          this.templatePath('personal-log/_config.json'),
+          this.destinationPath('config.json'),
+          this.props
+        );
+        this.fs.copyTpl(
+          this.templatePath('personal-log/index.md'),
+          this.destinationPath('src/index.md'),
+          this.props
+        );
+        this.fs.copyTpl(
+          this.templatePath('personal-log/todo.md'),
+          this.destinationPath('src/inc/todo.md'),
+          this.props
+        );
+      } else {
+        this.fs.copyTpl(
+          this.templatePath('_config.json'),
+          this.destinationPath('config.json'),
+          this.props
+        );
+        this.fs.copyTpl(
+          this.templatePath('index.md'),
+          this.destinationPath('src/index.md'),
+          this.props
+        );
+        this.fs.copyTpl(
+          this.templatePath('chapter_one.inc.md'),
+          this.destinationPath('src/chapters/one.inc.md'),
+          this.props
+        );
+      }
     }
   },
 
   install: function () {
     this.npmInstall();
+  },
+  
+  end: function () {
+    if (this.props.projectType === 'Personal Log') {
+      this.spawnCommand('gulp', ['today']);
+    }
   }
 });

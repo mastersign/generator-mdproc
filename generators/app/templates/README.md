@@ -22,8 +22,7 @@ Tasks
 The following [Gulp] tasks are available.
 
 * **autobuild** (default)  
-  Builds the documents in the default formats (`config.json`: `default_formats`)
-  and removes temporary files.
+  Builds the documents in the default formats (`config.json`: `default_formats`).
 * **watch**  
   Watches the source files and runs the task _autobuild_ if one file changes.
 * **html**  
@@ -33,8 +32,9 @@ The following [Gulp] tasks are available.
 <% if (supportPdf) { %>* **pdf**  
   Generates the documents in PDF format.
 <% } %>* **all**  
-  Generates the documents in all formats
-  and removes temporary files.
-
+  Generates the documents in all formats.
+<% if (projectType === 'Personal Log') { %>* **today**  
+  Creates a log entry for today.
+<% } %>
 
 [Gulp]: http://gulpjs.com "the streaming build system"
