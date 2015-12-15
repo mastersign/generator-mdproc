@@ -6,6 +6,8 @@
 Project Automation
 ------------------
 
+In _Visual Studio Code_ you can use `Ctrl+Shift+B` to run the `autobuild` task.
+
 This project is automated with [Gulp] tasks.
 
 You can run a task by typing the following command at the shell:
