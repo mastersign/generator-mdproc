@@ -131,6 +131,11 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('gulpfile.js'),
         this.props
       );
+      this.fs.copyTpl(
+          this.templatePath('preprocessing.js'),
+          this.destinationPath('config/preprocessing.js'),
+          this.props
+      );
 
       if (this.props.projectType === 'Personal Log') {
         this.fs.copyTpl(
