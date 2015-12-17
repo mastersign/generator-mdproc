@@ -9,8 +9,9 @@
     "email": "<%= authorEmail %>"
   },
   "license": "SEE LICENSE IN LICENSE.md",
-  "dependencies": {
+  "devDependencies": {
     "gulp": "^3.0.0",
+    "gulp-help": "^1.6.0",
     "gulp-watch": "^4.0.0",
     "mkdirp": "^0.5.0",
 <% if (needsGlob) { %>    "glob": "^6.0.0",

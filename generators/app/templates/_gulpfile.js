@@ -9,18 +9,18 @@ var mkdirp = require('mkdirp');
 <% } if (needsDateFormat) { %>var dateFormat = require('dateformat');
 <% } if (needsRunSequence) { %>var runSequence = require('run-sequence');
 <% } %>
-var gulp = require('gulp');
+var gulp = require('gulp-help')(require('gulp'));
 var watch = require('gulp-watch');
 var mdproc = require('mdproc');
 
 var cfg = require('./config/mdproc.json');
 var preProcess = require('./config/preprocessing.js');
 
-gulp.task('prepare-target-dir', function (cb) {
+gulp.task('prepare-target-dir', false, function (cb) {
 	mkdirp(cfg.target_dir, cb);
 });
 <% if (projectType === 'Personal Log') { %>
-gulp.task('entry-for-today', function (cb) {
+gulp.task('entry-for-today', false, function (cb) {
 	var now = new Date();
 	var yearDir = path.join('src', 'log', dateFormat(now, 'yyyy'));
 	var monthDir = path.join(yearDir, dateFormat(now, 'mm'));
@@ -43,7 +43,7 @@ gulp.task('entry-for-today', function (cb) {
 	});
 });
 
-gulp.task('update-log-index', function (cb) {
+gulp.task('update-log-index', false, function (cb) {
 	var logBase = path.join('src', 'log');
 	glob(logBase + '/????/??/????-??-??.md', function (err, files) {
 		if (err) {
@@ -65,19 +65,20 @@ gulp.task('update-log-index', function (cb) {
 	});
 });
 
-gulp.task('today', function (cb) {
+gulp.task('today', 'Create a new file for todays entries', function (cb) {
 	runSequence(
 		'entry-for-today',
 		'update-log-index',
 		cb);
 });
 <% } %>
-gulp.task('copy-images', function () {
+gulp.task('copy-images', false, function () {
 	return gulp.src(cfg.image_files, { base: 'src' })
 		.pipe(gulp.dest(cfg.target_dir));
 });
 
-gulp.task('html', ['prepare-target-dir', 'copy-images'],
+gulp.task('html', 'Build the HTML output', 
+	['prepare-target-dir', 'copy-images'],
 	mdproc.buildHtmlTask(
 		cfg.markdown_files, cfg.target_dir,
 		{
@@ -85,14 +86,16 @@ gulp.task('html', ['prepare-target-dir', 'copy-images'],
 			customTransformation: preProcess
 		}));
 
-gulp.task('docx', ['prepare-target-dir', 'copy-images'],
+gulp.task('docx', 'Build the DOCX output',
+	['prepare-target-dir', 'copy-images'],
 	mdproc.buildDocxTask(
 		cfg.markdown_files, cfg.target_dir,
 		{
 			customTransformation: preProcess
 		}));
 <% if (supportPdf) { %>
-gulp.task('tex', ['prepare-target-dir', 'copy-images'],
+gulp.task('tex', 'Build the TEX output',
+	['prepare-target-dir', 'copy-images'],
 	mdproc.buildLaTeXTask(
 		cfg.markdown_files, cfg.target_dir,
 		{
@@ -100,7 +103,8 @@ gulp.task('tex', ['prepare-target-dir', 'copy-images'],
 			customTransformation: preProcess
 		}));
 
-gulp.task('pdf', ['prepare-target-dir', 'copy-images'],
+gulp.task('pdf', 'Build the PDF output',
+	['prepare-target-dir', 'copy-images'],
 	mdproc.buildPdfTask(
 		cfg.markdown_files, cfg.target_dir,
 		{
@@ -108,14 +112,17 @@ gulp.task('pdf', ['prepare-target-dir', 'copy-images'],
 			customTransformation: preProcess
 		}));
 <% } %>
-gulp.task('all', ['html', 'docx'<% if (supportPdf) { %>, 'tex', 'pdf'<% } %>]);
+gulp.task('all', 'Build the output in all formats',
+	['html', 'docx'<% if (supportPdf) { %>, 'tex', 'pdf'<% } %>]);
 
-gulp.task('autobuild', cfg.default_formats);
+gulp.task('autobuild', false, cfg.default_formats);
 
-gulp.task('watch', ['autobuild'], function () {
-	watch(cfg.watch_files,
+gulp.task('watch', 'Watch the source files and build automatically',
+	['autobuild'], function () {
+	watch(cfg.watched_files,
 		{ verbose: true, readDelay: 200 },
 		function () { gulp.start('autobuild'); });
 });
 
-gulp.task('default', ['autobuild']);
+gulp.task('default', 'Build the output in the default formats', 
+	['autobuild']);
