@@ -5,13 +5,12 @@
 		"README.md",
 		"src/index.md"
 	],
-	"watch_files": [
-		"README.md",
-		"src/*.md",
-		"src/log/*/*.md"
-	],
 	"image_files": [
 		"src/images/*"
+	],
+	"watched_files": [
+		"README.md",
+		"src/**/*.md"
 	]<% if (supportPdf) { %>,
 	"latex_vars": {
 		"fontsize": "11pt",

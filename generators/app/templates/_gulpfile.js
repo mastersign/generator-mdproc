@@ -13,8 +13,7 @@ var gulp = require('gulp');
 var watch = require('gulp-watch');
 var mdproc = require('mdproc');
 
-var cfg = require('./config.json');
-
+var cfg = require('./config/mdproc.json');
 var preProcess = require('./config/preprocessing.js');
 
 gulp.task('prepare-target-dir', function (cb) {

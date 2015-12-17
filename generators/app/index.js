@@ -139,8 +139,8 @@ module.exports = yeoman.generators.Base.extend({
 
       if (this.props.projectType === 'Personal Log') {
         this.fs.copyTpl(
-          this.templatePath('personal-log/_config.json'),
-          this.destinationPath('config.json'),
+          this.templatePath('personal-log/mdproc.json'),
+          this.destinationPath('config/mdproc.json'),
           this.props
         );
         this.fs.copyTpl(
@@ -155,8 +155,8 @@ module.exports = yeoman.generators.Base.extend({
         );
       } else {
         this.fs.copyTpl(
-          this.templatePath('_config.json'),
-          this.destinationPath('config.json'),
+          this.templatePath('mdproc.json'),
+          this.destinationPath('config/mdproc.json'),
           this.props
         );
         this.fs.copyTpl(
