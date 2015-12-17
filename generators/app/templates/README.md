@@ -25,6 +25,8 @@ The following [Gulp] tasks are available.
 
 * **autobuild** (default)  
   Builds the documents in the default formats (`config.json`: `default_formats`).
+* **help**  
+  Shows all tasks with thier description.
 * **watch**  
   Watches the source files and runs the task _autobuild_ if one file changes.
 * **html**  
