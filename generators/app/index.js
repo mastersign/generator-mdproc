@@ -96,14 +96,6 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath('_yo-rc.json'),
         this.destinationPath('.yo-rc.json')
       );
-      this.fs.copyTpl(
-        this.templatePath('sublime-project.json'),
-        this.destinationPath(this.props.projectName + '.sublime-project')
-      );
-    },
-
-    projectfiles: function () {
-
       this.fs.copy(
         this.templatePath('_gitignore'),
         this.destinationPath('.gitignore')
@@ -113,9 +105,17 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('.editorconfig')
       );
       this.fs.copy(
+        this.templatePath('sublime-project.json'),
+        this.destinationPath(this.props.projectName + '.sublime-project')
+      );
+      this.fs.copy(
         this.templatePath('vscode_tasks.json'),
         this.destinationPath('.vscode/tasks.json')
       );
+   },
+
+    projectfiles: function () {
+
       this.fs.copyTpl(
         this.templatePath('README.md'),
         this.destinationPath('README.md'),
