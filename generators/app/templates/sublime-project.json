@@ -4,7 +4,7 @@
 			"name": "Project",
 			"path": ".",
 			"follow_symlinks": true,
-			"folder_exclude_patterns": ["*"],
+			"folder_include_patterns": ["config"],
 			"file_exclude_patterns": ["*.sublime-project"]
 		},
 		{
@@ -17,6 +17,10 @@
 			"name": "Images",
 			"path": "src/images",
 			"follow_symlinks": true
+		},
+		{
+			"name": "Output",
+			"path": "out"
 		}
 	]
 }
