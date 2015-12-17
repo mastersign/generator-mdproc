@@ -10,7 +10,8 @@
 		},
 		{
 			"taskName": "watch",
-			"isWatching": true
+			"isWatching": true,
+			"showOutput": "never"
 		}
 	]
 }
