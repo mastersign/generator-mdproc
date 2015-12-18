@@ -17,6 +17,8 @@
 <% if (needsGlob) { %>    "glob": "^6.0.0",
 <% } if (needsLodash) { %>    "lodash": "^3.0.0",
 <% } if (needsRunSequence) { %>    "run-sequence": "^1.0.0",
+<% } if (needsExec) { %>    "gulp-exec": "^2.0.0",
+<% } if (needsRename) { %>    "gulp-rename": "^1.0.0",
 <% } if (needsDateFormat) { %>    "dateformat": "^1.0.0",
 <% } %>    "mdproc": "^0.1.0"
   }

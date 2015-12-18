@@ -70,6 +70,8 @@ module.exports = yeoman.generators.Base.extend({
       props.projectSubTitle = 'Documentation';
       props.needsGlob = false;
       props.needsLodash = false;
+      props.needsExec = false;
+      props.needsRename = false;
       props.needsRunSequence = false;
       props.needsDateFormat = false;
       if (props.projectType === 'Personal Log') {
