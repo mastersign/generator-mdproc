@@ -10,5 +10,3 @@ lang: en
 ---
 
 This is the documentation for the project _<%= projectName %>_.
-
-<!-- #include chapters/one.inc.md -->

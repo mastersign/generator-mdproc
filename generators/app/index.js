@@ -3,195 +3,158 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var process = require('process');
-var fs = require('fs');
+
+var copy = function (that, templatePath, targetPath) {
+	that.fs.copy(
+		that.templatePath(templatePath), 
+		that.destinationPath(targetPath));
+};
+
+var copyTpl = function (that, templatePath, targetPath) {
+	that.fs.copyTpl( 
+		that.templatePath(templatePath),
+		that.destinationPath(targetPath),
+		that.props);
+};
 
 module.exports = yeoman.generators.Base.extend({
-  prompting: function () {
-    var done = this.async();
+	prompting: function () {
+		var done = this.async();
 
-    this.log(yosay(
-      'Creating a ' + chalk.red('Markdown Project') + ' just for you!'
-    ));
+		this.log(yosay(
+			'Creating a ' + chalk.red('Markdown Project') + ' just for you!'
+		));
 
-    var prompts = [
-      {
-        type: 'list',
-        name: 'projectType',
-        message: 'Which kind of project do you want?',
-        choices: ['Minimal', 'Personal Log'],
-        default: 0
-      },
-      {
-        type: 'input',
-        name: 'projectName',
-        message: 'Your project name',
-        default: this.appname,
-        validate: function (v) { return v.indexOf(" ") == -1; },
-        store: true
-      },
-      {
-        type: 'input',
-        name: 'projectTitle',
-        message: 'Your main documents title',
-        default: 'Untitled',
-        store: true
-      },
-      {
-        type: 'input',
-        name: 'projectDescription',
-        message: 'A brief description of your project',
-        default: 'An informative documentation project',
-        store: true
-      },
-      {
-        type: 'input',
-        name: 'authorName',
-        message: 'The name of the author',
-        default: process.env['USER'],
-        store: true
-      },
-      {
-        type: 'input',
-        name: 'authorEmail',
-        message: 'The email of the author',
-        default: process.env['MAIL'],
-        store: true
-      },
-      {
-        type: 'confirm',
-        name: 'supportPdf',
-        message: 'Do you need support for PDF generation',
-        default: true,
-        store: true
-      }
-    ];
+		var prompts = [
+			{
+				type: 'list',
+				name: 'projectType',
+				message: 'Which kind of project do you want?',
+				choices: ['Minimal', 'Demo', 'Personal Log'],
+				default: 0
+			},
+			{
+				type: 'input',
+				name: 'projectName',
+				message: 'Your project name',
+				default: this.appname,
+				validate: function (v) { return v.indexOf(' ') === -1; },
+				store: true
+			},
+			{
+				type: 'input',
+				name: 'projectTitle',
+				message: 'Your main documents title',
+				default: 'Untitled',
+				store: true
+			},
+			{
+				type: 'input',
+				name: 'projectDescription',
+				message: 'A brief description of your project',
+				default: 'An informative documentation project',
+				store: true
+			},
+			{
+				type: 'input',
+				name: 'authorName',
+				message: 'The name of the author',
+				default: process.env.USER,
+				store: true
+			},
+			{
+				type: 'input',
+				name: 'authorEmail',
+				message: 'The email of the author',
+				default: process.env.MAIL,
+				store: true
+			},
+			{
+				type: 'confirm',
+				name: 'supportPdf',
+				message: 'Do you need support for PDF generation',
+				default: true,
+				store: true
+			}
+		];
 
-    this.prompt(prompts, function (props) {
-      props.projectSubTitle = 'Documentation';
-      props.needsGlob = false;
-      props.needsLodash = false;
-      props.needsExec = false;
-      props.needsRename = false;
-      props.needsRunSequence = false;
-      props.needsDateFormat = false;
-      if (props.projectType === 'Personal Log') {
-        props.projectSubTitle = 'One Entry every Day'
-        props.needsGlob = true;
-        props.needsLodash = true;
-        props.needsRunSequence = true;
-        props.needsDateFormat = true;
-      }
-      this.props = props;
-      // To access props later use this.props.someOption;
-      done();
-    }.bind(this));
-  },
+		this.prompt(prompts, function (props) {
+			props.projectSubTitle = 'Documentation';
+			props.needsMdInclude = true;
+			props.needsMdQuery = true;
+			props.needsRename = false;
+			props.needsGlob = false;
+			props.needsLodash = false;
+			props.needsRunSequence = false;
+			props.needsDateFormat = false;
+			props.needsExec = false;
 
-  writing: {
-    app: function () {
-      this.fs.copyTpl(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json'),
-        this.props
-      );
-      this.fs.copy(
-        this.templatePath('_yo-rc.json'),
-        this.destinationPath('.yo-rc.json')
-      );
-      this.fs.copy(
-        this.templatePath('_gitignore'),
-        this.destinationPath('.gitignore')
-      );
-      this.fs.copy(
-        this.templatePath('editorconfig'),
-        this.destinationPath('.editorconfig')
-      );
-      this.fs.copy(
-        this.templatePath('sublime-project.json'),
-        this.destinationPath(this.props.projectName + '.sublime-project')
-      );
-      this.fs.copy(
-        this.templatePath('vscode_tasks.json'),
-        this.destinationPath('.vscode/tasks.json')
-      );
-   },
+			if (props.projectType === 'Demo') {
+				props.projectSubTitle = 'MdProc Features';
+			} else if (props.projectType === 'Personal Log') {
+				props.projectSubTitle = 'One Entry every Day'
+				props.needsGlob = true;
+				props.needsLodash = true;
+				props.needsRunSequence = true;
+				props.needsDateFormat = true;
+			}
 
-    projectfiles: function () {
+			this.props = props;
+			// To access props later use this.props.someOption;
+			done();
+		}.bind(this));
+	},
 
-      this.fs.copyTpl(
-        this.templatePath('README.md'),
-        this.destinationPath('README.md'),
-        this.props
-      );
-      this.fs.copyTpl(
-        this.templatePath('LICENSE.md'),
-        this.destinationPath('LICENSE.md'),
-        this.props
-      );
-      this.fs.copyTpl(
-        this.templatePath('_gulpfile.js'),
-        this.destinationPath('gulpfile.js'),
-        this.props
-      );
-      this.fs.copyTpl(
-          this.templatePath('preprocessing.js'),
-          this.destinationPath('config/preprocessing.js'),
-          this.props
-      );
+	writing: {
+		app: function () {
+			copyTpl(this, '_package.json', 'package.json');
+			copy(this, '_yo-rc.json', '.yo-rc.json');
+			copy(this, '_gitignore', '.gitignore');
+			copy(this, 'editorconfig', '.editorconfig');
+			copy(this, 'sublime-project.json', this.props.projectName + '.sublime-project');
+			copy(this, 'vscode_tasks.json', '.vscode/tasks.json');
+		},
 
-      if (this.props.projectType === 'Personal Log') {
-        this.fs.copyTpl(
-          this.templatePath('personal-log/mainfiles'),
-          this.destinationPath('config/mainfiles'),
-          this.props
-        );
-        this.fs.copyTpl(
-          this.templatePath('personal-log/mdproc.json'),
-          this.destinationPath('config/mdproc.json'),
-          this.props
-        );
-        this.fs.copyTpl(
-          this.templatePath('personal-log/index.md'),
-          this.destinationPath('src/index.md'),
-          this.props
-        );
-        this.fs.copyTpl(
-          this.templatePath('personal-log/todo.md'),
-          this.destinationPath('src/inc/todo.md'),
-          this.props
-        );
-      } else {
-        this.fs.copyTpl(
-          this.templatePath('mainfiles'),
-          this.destinationPath('config/mainfiles'),
-          this.props
-        );
-        this.fs.copyTpl(
-          this.templatePath('mdproc.json'),
-          this.destinationPath('config/mdproc.json'),
-          this.props
-        );
-        this.fs.copyTpl(
-          this.templatePath('index.md'),
-          this.destinationPath('src/index.md'),
-          this.props
-        );
-        this.fs.copyTpl(
-          this.templatePath('chapter_one.inc.md'),
-          this.destinationPath('src/chapters/one.inc.md'),
-          this.props
-        );
-      }
-    }
-  },
+		projectfiles: function () {
 
-  install: function () {
-    this.npmInstall();
-  },
-  
-  end: function () {
-    if (this.props.projectType === 'Personal Log') {
-      this.spawnCommand('gulp', ['today']);
-    }
-  }
+			copyTpl(this, 'README.md', 'README.md');
+			copyTpl(this, 'LICENSE.md', 'LICENSE.md');
+			copyTpl(this, '_gulpfile.js', 'gulpfile.js');
+			copyTpl(this, 'mdproc.json', 'config/mdproc.json');
+			copyTpl(this, 'preprocessing.js', 'config/preprocessing.js');
+
+			if (this.props.projectType === 'Demo') {
+				copyTpl(this, 'demo/mainfiles', 'config/mainfiles');
+				copyTpl(this, 'demo/graphs.json', 'config/graphs.json');
+				copyTpl(this, 'demo/index.md', 'src/index.md');
+				copy(this, 'demo/includes.inc.md', 'src/inc/includes.md');
+				copy(this, 'demo/table1.csv', 'src/data/table1.csv');
+				copy(this, 'demo/example.js', 'src/code/example.js');
+				copy(this, 'demo/images.inc.md', 'src/inc/images.md');
+				copy(this, 'demo/workbench.jpg', 'src/img/workbench.jpg');
+				copy(this, 'demo/query.inc.md', 'src/inc/query.md');
+				copy(this, 'demo/data.inc.md', 'src/inc/data.md');
+				copy(this, 'demo/links.inc.md', 'src/inc/links.md');
+			} else if (this.props.projectType === 'Personal Log') {
+				copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');
+				copyTpl(this, 'graphs.json', 'config/graphs.json');
+				copyTpl(this, 'personal-log/index.md', 'src/index.md');
+				copyTpl(this, 'personal-log/todo.md', 'src/inc/todo.md');
+			} else {
+				copyTpl(this, 'mainfiles', 'config/mainfiles');
+				copyTpl(this, 'graphs.json', 'config/graphs.json');
+				copyTpl(this, 'index.md', 'src/index.md');
+			}
+		}
+	},
+
+	install: function () {
+		this.npmInstall();
+	},
+
+	end: function () {
+		if (this.props.projectType === 'Personal Log') {
+			this.spawnCommand('gulp', ['today']);
+		}
+	}
 });

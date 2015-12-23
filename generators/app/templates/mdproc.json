@@ -5,8 +5,12 @@
 		"README.md",
 		"src/*.md"
 	],
+	"md2html_config": { },
+	"md2docx_config": { },
+	"md2pdf_config": { },
 	"image_files": [
-		"src/images/*"
+		"src/img/*",
+		"src/img-gen/*"
 	],
 	"watched_files": [
 		"README.md",

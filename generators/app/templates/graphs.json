@@ -1,0 +1,10 @@
+{
+	"autograph": {
+		"sources": [],
+		"target": "src/img-gen"
+	},
+	"dotex": {
+		"sources": [],
+		"target": "src/img-gen"
+	}
+}

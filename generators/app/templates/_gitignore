@@ -1,5 +1,7 @@
 /out
 /tmp
+/src/img-gen
+
 node_modules
 
 *.sublime-workspace

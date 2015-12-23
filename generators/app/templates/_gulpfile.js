@@ -4,21 +4,23 @@ var os = require('os');
 var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
+var gulp = require('gulp-help')(require('gulp'));
+var watch = require('gulp-watch');
+var textTransform = require('gulp-text-simple');
+var lazypipe = require('lazypipe');
+var mdproc = require('mdproc');
 <% if (needsLodash) { %>var _ = require('lodash');
 <% } if (needsGlob) { %>var glob = require('glob');
 <% } if (needsDateFormat) { %>var dateFormat = require('dateformat');
 <% } if (needsRunSequence) { %>var runSequence = require('run-sequence');
-<% } %>
-var gulp = require('gulp-help')(require('gulp'));
-var watch = require('gulp-watch');
-var mdproc = require('mdproc');
+<% } if (needsMdInclude) { %>var mdinclude = require('mdinclude');
+<% } if (needsMdQuery) { %>var mdquery = require('mdquery').transform;
+<% } %> 
 
 var cfg = require('./config/mdproc.json');
-var preProcess = require('./config/preprocessing.js');
+var graphs = require('./config/graphs.json');
+var preProcess = textTransform(require('./config/preprocessing.js'));
 
-gulp.task('prepare-target-dir', false, function (cb) {
-	mkdirp(cfg.target_dir, cb);
-});
 <% if (projectType === 'Personal Log') { %>
 gulp.task('entry-for-today', false, function (cb) {
 	var now = new Date();
@@ -77,40 +79,43 @@ gulp.task('copy-images', false, function () {
 		.pipe(gulp.dest(cfg.target_dir));
 });
 
-gulp.task('html', 'Build the HTML output', 
-	['prepare-target-dir', 'copy-images'],
-	mdproc.buildHtmlTask(
-		cfg.markdown_files, cfg.target_dir,
-		{
-			imgFormat: 'svg',
-			customTransformation: preProcess
-		}));
+var markdownPipeline = function (opt) {
+	return lazypipe()
+		.pipe(mdinclude)
+		.pipe(mdquery)
+		.pipe(mdproc.references, { prefixCaption: opt.prefixCaption })
+		.pipe(mdproc.states)
+		.pipe(preProcess)
+		();
+};
 
-gulp.task('docx', 'Build the DOCX output',
-	['prepare-target-dir', 'copy-images'],
-	mdproc.buildDocxTask(
-		cfg.markdown_files, cfg.target_dir,
-		{
-			customTransformation: preProcess
-		}));
+gulp.task('html', 'Build the HTML output', ['copy-images'], function () {
+	return gulp.src(cfg.markdown_files)
+		.pipe(markdownPipeline({ prefixCaption: true }))
+		.pipe(mdproc.md2html())
+		.pipe(gulp.dest(cfg.target_dir));
+});
+
+gulp.task('docx', 'Build the DOCX output', function () {
+	return gulp.src(cfg.markdown_files)
+		.pipe(markdownPipeline({ prefixCaption: true }))
+		.pipe(mdproc.md2docx())
+		.pipe(gulp.dest(cfg.target_dir));
+});
 <% if (supportPdf) { %>
-gulp.task('tex', 'Build the TEX output',
-	['prepare-target-dir', 'copy-images'],
-	mdproc.buildLaTeXTask(
-		cfg.markdown_files, cfg.target_dir,
-		{
-			vars: cfg.latex_vars,
-			customTransformation: preProcess
-		}));
+gulp.task('tex', 'Build the TeX output', ['copy-images'], function () {
+	return gulp.src(cfg.markdown_files)
+		.pipe(markdownPipeline({ prefixCaption: false }))
+		.pipe(mdproc.md2tex())
+		.pipe(gulp.dest(cfg.target_dir));
+});
 
-gulp.task('pdf', 'Build the PDF output',
-	['prepare-target-dir', 'copy-images'],
-	mdproc.buildPdfTask(
-		cfg.markdown_files, cfg.target_dir,
-		{
-			vars: cfg.latex_vars,
-			customTransformation: preProcess
-		}));
+gulp.task('pdf', 'Build the PDF output', function () {
+	return gulp.src(cfg.markdown_files)
+		.pipe(markdownPipeline({ prefixCaption: false }))
+		.pipe(mdproc.md2pdf())
+		.pipe(gulp.dest(cfg.target_dir));
+});
 <% } %>
 gulp.task('all', 'Build the output in all formats',
 	['html', 'docx'<% if (supportPdf) { %>, 'tex', 'pdf'<% } %>]);
