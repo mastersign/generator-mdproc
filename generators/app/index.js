@@ -80,11 +80,7 @@ module.exports = yeoman.generators.Base.extend({
 
 		this.prompt(prompts, function (props) {
 			props.projectSubTitle = 'Documentation';
-			props.needsMdInclude = true;
-			props.needsMdQuery = true;
-			props.needsRename = false;
 			props.needsGlob = false;
-			props.needsLodash = false;
 			props.needsRunSequence = false;
 			props.needsDateFormat = false;
 			props.needsExec = false;
@@ -94,7 +90,6 @@ module.exports = yeoman.generators.Base.extend({
 			} else if (props.projectType === 'Personal Log') {
 				props.projectSubTitle = 'One Entry every Day'
 				props.needsGlob = true;
-				props.needsLodash = true;
 				props.needsRunSequence = true;
 				props.needsDateFormat = true;
 			}
@@ -134,6 +129,8 @@ module.exports = yeoman.generators.Base.extend({
 				copy(this, 'demo/workbench.jpg', 'src/img/workbench.jpg');
 				copy(this, 'demo/query.inc.md', 'src/inc/query.md');
 				copy(this, 'demo/data.inc.md', 'src/inc/data.md');
+				copy(this, 'demo/graph.inc.md', 'src/inc/graph.md');
+				copy(this, 'demo/relations.inc.md', 'src/inc/relations.md');
 				copy(this, 'demo/links.inc.md', 'src/inc/links.md');
 			} else if (this.props.projectType === 'Personal Log') {
 				copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');

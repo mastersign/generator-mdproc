@@ -3,14 +3,16 @@
 var os = require('os');
 var path = require('path');
 var fs = require('fs');
+var _ = require('lodash');
 var mkdirp = require('mkdirp');
 var gulp = require('gulp-help')(require('gulp'));
 var watch = require('gulp-watch');
+var rename = require('gulp-rename');
 var textTransform = require('gulp-text-simple');
 var lazypipe = require('lazypipe');
+var es = require('event-stream');
 var mdproc = require('mdproc');
-<% if (needsLodash) { %>var _ = require('lodash');
-<% } if (needsGlob) { %>var glob = require('glob');
+<% if (needsGlob) { %>var glob = require('glob');
 <% } if (needsDateFormat) { %>var dateFormat = require('dateformat');
 <% } if (needsRunSequence) { %>var runSequence = require('run-sequence');
 <% } if (needsMdInclude) { %>var mdinclude = require('mdinclude');
@@ -89,10 +91,23 @@ var markdownPipeline = function (opt) {
 		();
 };
 
-gulp.task('html', 'Build the HTML output', ['copy-images'], function () {
+gulp.task('autograph:svg', function () {
+	var tasks = _.map(graphs.autograph.sources, function (g) {
+		return gulp.src(g.sourceFile)
+			.pipe(markdownPipeline({ prefixCaption: true }))
+			.pipe(mdproc.autograph(g.options))
+			.pipe(rename({ basename: g.name }))
+			.pipe(gulp.dest(graphs.autograph.target));
+	});
+	return es.concat.apply(null, tasks);
+});
+
+gulp.task('images:svg', ['copy-images', 'autograph:svg']);
+
+gulp.task('html', 'Build the HTML output', ['images:svg'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
-		.pipe(mdproc.md2html())
+		.pipe(mdproc.md2html({ basePath: 'src' }))
 		.pipe(gulp.dest(cfg.target_dir));
 });
 
