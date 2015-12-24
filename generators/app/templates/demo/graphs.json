@@ -1,6 +1,21 @@
 {
 	"autograph": {
-		"sources": [],
+		"sources": [
+			{
+				"name": "document-relations", 
+				"sourceFile": "src/index.md",
+				"options": {
+					"graphAttributes": {
+						"rankdir": "TB"
+					},
+					"nodeAttributes": {
+						"fontname": "Calibri",
+						"shape": "rect"
+					},
+					"edgeAttributes": { }
+				}
+			}
+		],
 		"target": "src/img-gen"
 	},
 	"dotex": {

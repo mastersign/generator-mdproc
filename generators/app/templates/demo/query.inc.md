@@ -2,6 +2,8 @@
 
 Because of the [NodeJS] packages [MdData] and [MdQuery], you can query structured data from the document.
 
+The data used in the following queries comes from the chapter [Data].
+
 ## Lists
 
 Here is a list with all recepies:
@@ -31,3 +33,5 @@ And you can build more complex tables, e.g. an address table:
 #column City: value(Address/City)
 #column Street: value(Address/Street) 
 -->
+
+<!-- #include data.md -->
