@@ -93,19 +93,80 @@ var markdownPipeline = function (opt) {
 		();
 };
 
-gulp.task('autograph:svg', function () {
-	var tasks = _.map(graphs.autograph.sources, function (g) {
-		return gulp.src(g.sourceFile)
-			.pipe(markdownPipeline({ prefixCaption: true }))
-			.pipe(mdproc.autograph(g.options))
-			.pipe(rename({ basename: g.name }))
-			.pipe(gulp.dest(graphs.autograph.target));
-	});
-	return es.concat.apply(null, tasks);
+var graphextract = function (prefixCaption, imgFormat, cb) {
+	if (graphs.autograph.sources.length > 0) {
+		var tasks = _.map(graphs.autograph.sources, function (g) {
+			var opt = _.assign(
+				{ imgFormat: imgFormat },
+				g.options);
+			return gulp.src(g.sourceFile)
+				.pipe(markdownPipeline({ prefixCaption: prefixCaption }))
+				.pipe(mdproc.autograph(opt))
+				.pipe(rename({ basename: g.name }))
+				.pipe(gulp.dest(graphs.autograph.target));
+		});
+		return es.concat.apply(null, tasks);
+	} else {
+		cb();
+	}
+};
+
+var dotex = function (prefixCaption, imgFormat, cb) {
+	if (graphs.dotex.sources.length) {
+		var tasks = _.map(graphs.dotex.sources, function (g) {
+			var opt = _.assign(
+				{ imgFormat: imgFormat },
+				g.options);
+			return gulp.src(g.sourceFile)
+				.pipe(markdownPipeline({ prefixCaption: prefixCaption }))
+				.pipe(mdproc.dotex(opt))
+				.pipe(rename({ basename: g.name }))
+				.pipe(gulp.dest(graphs.dotex.target));
+		});
+		return es.concat.apply(null, tasks);
+	} else {
+		cb();
+	}
+};
+
+gulp.task('copy-images', false, function () {
+	return gulp.src(cfg.image_files, { base: 'src' })
+		.pipe(gulp.dest(cfg.target_dir));
 });
 
-gulp.task('images:svg', ['copy-images', 'autograph:svg']);
+gulp.task('autograph:svg', false, function (cb) { return graphextract(true, 'svg', cb); });
 
+gulp.task('autograph:png', false, function (cb) { return graphextract(true, 'png', cb); });
+<% if (supportPdf) { %>
+gulp.task('autograph:pdf', false, function (cb) { return graphextract(false, 'pdf', cb); });
+<% } %>
+gulp.task('dotex:svg', false, function (cb) { return dotex(true, 'svg', cb); });
+
+gulp.task('dotex:png', false, function (cb) { return dotex(true, 'png', cb); });
+<% if (supportPdf) { %>
+gulp.task('dotex:pdf', false, function (cb) { return dotex(true, 'pdf', cb); });
+<% } %>
+gulp.task('images:svg', false, function (cb) {
+	runSequence(
+		['autograph:svg', 'dotex:svg'], 
+		'copy-images', 
+		cb);
+});
+
+gulp.task('images:png', false, function (cb) {
+	runSequence(
+		['autograph:png', 'dotex:png'],
+		'copy-images',
+		cb);
+});
+<% if (supportPdf) { %>
+gulp.task('images:pdf', false, function (cb) {
+	runSequence(
+		['autograph:pdf', 'dotex:pdf'],
+		'copy-images',
+		cb);
+});
+<% } %>
 gulp.task('html', 'Build the HTML output', ['images:svg'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
@@ -113,21 +174,21 @@ gulp.task('html', 'Build the HTML output', ['images:svg'], function () {
 		.pipe(gulp.dest(cfg.target_dir));
 });
 
-gulp.task('docx', 'Build the DOCX output', function () {
+gulp.task('docx', 'Build the DOCX output', ['images:png'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
 		.pipe(mdproc.md2docx())
 		.pipe(gulp.dest(cfg.target_dir));
 });
 <% if (supportPdf) { %>
-gulp.task('tex', 'Build the TeX output', ['copy-images'], function () {
+gulp.task('tex', 'Build the TeX output', ['images:pdf'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: false }))
 		.pipe(mdproc.md2tex())
 		.pipe(gulp.dest(cfg.target_dir));
 });
 
-gulp.task('pdf', 'Build the PDF output', function () {
+gulp.task('pdf', 'Build the PDF output', ['images:pdf'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: false }))
 		.pipe(mdproc.md2pdf())
