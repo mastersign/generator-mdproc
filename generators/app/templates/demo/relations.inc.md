@@ -6,13 +6,33 @@ A node startes with the keyword `@node` or `@n`.
 You can optionally add the title of a node. If you do not specify a node title,
 the title is derived from the next preceding headline.
 
+````markdown
+## Chapter 3
+<!-- @node -->
+<!-- @n Another Node -->
+````
+
 To express a relation from one node to another, you can use the keyword `@edge` or `@e`.
-THe complete syntax is `@edge from -> to` or `@edge -> to`. If you skip the from node title,
+The complete syntax is `@edge from -> to` or `@edge -> to`. If you skip the from node title,
 then the title of the last specified node is used.
 
+````markdown
+## Chapter 4
+<!-- 
+@e -> Chapter 3
+@edge Another Node -> Chapter 4
+-->
+````
+
 You can associate a node or a relation with a type, to control the styling.
-To specify a node or an edge of specifiy type, add the type in angle brackets:
-`@node My Node <node-type-1>` or `@edge My Node -> Your Node <edge-type-1>`. 
+To specify a node or an edge of specifiy type, add the type in angle brackets.
+
+````markdown
+<!--
+@node My Node <node-type-1>
+@edge My Node -> Your Node <edge-type-1>
+-->
+````
 
 To adjust the visualization of a graph, you can use [Graphviz] attributes.
 The complete list of attributes can be found in the
@@ -23,7 +43,21 @@ or with a named color from the [X11 color scheme](http://www.graphviz.org/conten
 You can define attributes as default for the graph, for nodes and edges,
 and you can define attributes for node types and edge types.
 Default attributes and types must be defined before the nodes and edges,
-so best put them in the head of the document.
+so best put them in the head of the document, or even better, in a separate file,
+which is included at the beginning of the document.
+
+````markdown
+<!--
+@node-type node-type-1: shape=rect, style="filled,rounded" color=#008080, fillcolor=#FFF0A080
+@edge-type edge-type-1: arrowsize=2.0, arrowhead=diamond
+-->
+````
+
+Nodes and edges can be tagged, and selected in groups for subgraphs.
+
+````markdown
+<!-- @node #GroupA #GroupB Node Title -->
+````
 
 For more on the syntax take a look at the documentation of [MdGraphExtract].
 
