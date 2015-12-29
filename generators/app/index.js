@@ -116,11 +116,11 @@ module.exports = yeoman.generators.Base.extend({
 			copyTpl(this, 'LICENSE.md', 'LICENSE.md');
 			copyTpl(this, '_gulpfile.js', 'gulpfile.js');
 			copyTpl(this, 'mdproc.json', 'config/mdproc.json');
-			copyTpl(this, 'preprocessing.js', 'config/preprocessing.js');
 
 			if (this.props.projectType === 'Demo') {
 				copyTpl(this, 'demo/mainfiles', 'config/mainfiles');
 				copyTpl(this, 'demo/graphs.json', 'config/graphs.json');
+				copyTpl(this, 'demo/preprocessing.js', 'config/preprocessing.js');
 				copyTpl(this, 'demo/index.md', 'src/index.md');
 				copy(this, 'demo/includes.inc.md', 'src/inc/includes.md');
 				copy(this, 'demo/table1.csv', 'src/data/table1.csv');
@@ -135,11 +135,13 @@ module.exports = yeoman.generators.Base.extend({
 			} else if (this.props.projectType === 'Personal Log') {
 				copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');
 				copyTpl(this, 'graphs.json', 'config/graphs.json');
+				copyTpl(this, 'personal-log/preprocessing.js', 'config/preprocessing.js');
 				copyTpl(this, 'personal-log/index.md', 'src/index.md');
 				copyTpl(this, 'personal-log/todo.md', 'src/inc/todo.md');
 			} else {
 				copyTpl(this, 'mainfiles', 'config/mainfiles');
 				copyTpl(this, 'graphs.json', 'config/graphs.json');
+				copyTpl(this, 'preprocessing.js', 'config/preprocessing.js');
 				copyTpl(this, 'index.md', 'src/index.md');
 			}
 		}
