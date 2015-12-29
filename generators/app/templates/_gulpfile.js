@@ -3,6 +3,7 @@
 var os = require('os');
 var path = require('path');
 var fs = require('fs');
+var del = require('del');
 var _ = require('lodash');
 var mkdirp = require('mkdirp');
 var gulp = require('gulp-help')(require('gulp'));
@@ -11,12 +12,13 @@ var rename = require('gulp-rename');
 var textTransform = require('gulp-text-simple');
 var lazypipe = require('lazypipe');
 var es = require('event-stream');
+var runSequence = require('run-sequence');
 var mdproc = require('mdproc');
+var mdinclude = require('mdinclude');
+var mdquery = require('mdquery').transform;
 <% if (needsGlob) { %>var glob = require('glob');
 <% } if (needsDateFormat) { %>var dateFormat = require('dateformat');
-<% } if (needsRunSequence) { %>var runSequence = require('run-sequence');
-<% } if (needsMdInclude) { %>var mdinclude = require('mdinclude');
-<% } if (needsMdQuery) { %>var mdquery = require('mdquery').transform;
+<% } if (needsExec) { %>var exec = require('gulp-exec');
 <% } %> 
 
 var cfg = require('./config/mdproc.json');

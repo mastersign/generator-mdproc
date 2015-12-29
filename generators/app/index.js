@@ -81,7 +81,6 @@ module.exports = yeoman.generators.Base.extend({
 		this.prompt(prompts, function (props) {
 			props.projectSubTitle = 'Documentation';
 			props.needsGlob = false;
-			props.needsRunSequence = false;
 			props.needsDateFormat = false;
 			props.needsExec = false;
 
@@ -90,7 +89,6 @@ module.exports = yeoman.generators.Base.extend({
 			} else if (props.projectType === 'Personal Log') {
 				props.projectSubTitle = 'One Entry every Day'
 				props.needsGlob = true;
-				props.needsRunSequence = true;
 				props.needsDateFormat = true;
 			}
 
