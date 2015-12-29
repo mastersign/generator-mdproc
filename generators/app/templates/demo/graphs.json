@@ -2,7 +2,7 @@
 	"autograph": {
 		"sources": [
 			{
-				"name": "document-relations", 
+				"name": "document-relations",
 				"sourceFile": "src/index.md",
 				"options": {
 					"graphAttributes": {
@@ -23,7 +23,7 @@
 			{
 				"name": "default-relations",
 				"sourceFile": "src/index.md",
-				"options": { 
+				"options": {
 					"nodeAttributes": {
 						"fontname": "Calibri"
 					}
