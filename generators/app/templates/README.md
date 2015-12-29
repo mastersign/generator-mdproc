@@ -39,6 +39,7 @@ The following [Gulp] tasks are available.
   Generates the documents in all formats.
 <% if (projectType === 'Personal Log') { %>* **today**  
   Creates a log entry for today.
-<% } %>
+<% } %>* **clean**  
+  Deletes all generated documents and images.
 
 [Gulp]: http://gulpjs.com "the streaming build system"

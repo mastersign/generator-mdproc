@@ -129,6 +129,16 @@ var dotex = function (prefixCaption, imgFormat, cb) {
 	}
 };
 
+gulp.task('clean', 'Remove all generated output', function () {
+	del.sync(cfg.target_dir);
+	if (graphs.autograph.target) {
+		del.sync(graphs.autograph.target);
+	}
+	if (graphs.dotex.target) {
+		del.sync(graphs.dotex.target);
+	}
+});
+
 gulp.task('copy-images', false, function () {
 	return gulp.src(cfg.image_files, { base: 'src' })
 		.pipe(gulp.dest(cfg.target_dir));
