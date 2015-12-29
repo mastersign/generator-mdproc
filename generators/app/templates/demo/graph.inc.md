@@ -20,11 +20,11 @@ of the whole document.
 Next we use the _dotex_ mode of [MdGraphExtract].
 
 Here you can see the visualized result of two extracted graphs.
-The first is a graph of the default relations, expressed in the document.
+The first is a graph of the default relations, expressed in the document with _dotex_ notation.
 
 ![#img:graph-default Default Relations](img-gen/default-relations)
 
-The second is a specific selection of the taged relations.
+The second shows the default relations plus the specifically selected group _Spine_. 
 
 ![#img:graph-selected Selected Group of Relations](img-gen/selected-relations)
 

@@ -28,54 +28,82 @@ so best put them in the head of the document.
 For more on the syntax take a look at the documentation of [MdGraphExtract].
 
 <!--
-@node shape=ellipse, style=filled, color=#404040, fillcolor=#D0D0D0, fontcolor=#000000 
-@node-type arm: style=rect, style="filled,rounded"
-@node-type leg: style=rect, style=filled
+@node-attributes shape=rect, style=filled, color=#404040, fillcolor=#A0D0FF, fontcolor=#000000 
+@node-type arm: shape=ellipse, fillcolor=#FFA060
+@node-type leg: shape=rect, style="filled,rounded", fillcolor=#80D040
+@edge-type spine: arrowhead=odot, arrowsize=1.5
 -->
 
 ## Upper Body
 
+The upper body spans the _Head_, the _Shoulder_, the arms, and the hands.
+Additionally, it contains the _Belly_.
+
 ### Head
-<!-- @node Head -->
-<!-- @edge Head -> Shoulder -->
+<!-- @node Head: shape=diamond, fillcolor=#FFF080 -->
+<!-- @edge #Spine Head -> Shoulder <spine> -->
+
+The _Head_ is only connected to the _Shoulder_, via the spine.
 
 ### Shoulder
-<!-- @node -->
-<!-- @edge -> Belly -->
+<!-- @node shape=house -->
+<!-- @edge #Spine -> Belly <spine> -->
+<!-- @edge -> Left Arm -->
+<!-- @edge -> Right Arm -->
+
+The _Shoulder_ is connected to the arms and the _Belly_, via the spine.
 
 ### Left Arm
 <!-- @node <arm> -->
-<!-- @edge Left Arm -> Shoulder -->
 <!-- @node Left Hand <arm> -->
-<!-- @edge -> Left Arm -->
-<!-- @edge -> Right Hand <touch> -->
+<!-- @edge -> Left Hand -->
+
+The _Left Arm_ is connected to the _Left Hand_.
+The _Left Hand_ is not represented with its own section.
+
+### Belly
+<!-- 
+@node shape=octagon, width=1.5
+@edge #Spine -> Hips <spine>
+-->
+
+The _Belly_ is connected to the _Hips_, via the spine.
 
 ### Right Arm
 <!--
 @node <arm>
-@edge -> Shoulder
 @node Right Hand <arm>
-@edge -> Right Arm
+@edge -> Right Hand
 -->
 
-### Belly
-<!-- @node -->
+The _Right Arm_ is connected to the _Right Hand_.
+The _Right Hand_ is not represented with its own section.
 
 ## Lower Body
 
+The _Lower Body_ spand the _Hips_, the _Legs_ and the _Feet_. 
+
 ### Hips
-<!-- @n -->
-<!-- @e -> Belly -->
+<!-- @n shape=invtrapezium -->
+<!-- @e -> Left Leg -->
+<!-- @e -> Right Leg -->
+
+The _Hips_ is connected to the _Left Leg_ and the _Right Leg_.
 
 ### Left Leg
 <!-- @n <leg> -->
-<!-- @e -> Hips -->
+<!-- @e -> Left Foot -->
 <!-- @n Left Foot <leg> -->
-<!-- @e -> Left Leg -->
+
+The _Left Leg_ is connected to the _Left Foot_.
+The _Left Foot_ is not represented with its own section.
 
 ### Right Leg
 <!--
 @n <leg>
-@e -> Hips
-@n Right Foot
+@n Right Foot <leg>
+@e -> Right Foot
 -->
+
+The _Right Leg_ is connected to the _Right Foot_.
+The _Right Foot_ is not represented with its own section.

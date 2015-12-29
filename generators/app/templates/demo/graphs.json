@@ -19,7 +19,27 @@
 		"target": "src/img-gen"
 	},
 	"dotex": {
-		"sources": [],
+		"sources": [
+			{
+				"name": "default-relations",
+				"sourceFile": "src/index.md",
+				"options": { 
+					"nodeAttributes": {
+						"fontname": "Calibri"
+					}
+				}
+			},
+			{
+				"name": "selected-relations",
+				"sourceFile": "src/index.md",
+				"options": {
+					"nodeAttributes": {
+						"fontname": "Calibri"
+					},
+					"group": ["Spine"]
+				}
+			}
+		],
 		"target": "src/img-gen"
 	}
 }
