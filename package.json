@@ -1,6 +1,6 @@
 {
   "name": "generator-mdproc",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Yeoman generator for a Markdown project using MdProc.",
   "license": "MIT",
   "main": "app/index.js",
