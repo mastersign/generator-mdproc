@@ -1,4 +1,8 @@
-# generator-mdproc [![Build Status](https://secure.travis-ci.org/mastersign/generator-mdproc.png?branch=master)](https://travis-ci.org/mastersign/generator-mdproc)
+generator-mdproc
+================
+
+[![npm package][npm-img]][npm-url]
+[![build status][travis-img]][travis-url]
 
 > [Yeoman](http://yeoman.io) generator for a Markdown project using [_MdProc_](https://github.com/mastersign/mdproc)
 
@@ -44,3 +48,8 @@ If you'd like to get to know Yeoman better and meet some of his friends, [Grunt]
 ## License
 
 MIT
+
+[npm-url]: https://www.npmjs.com/package/generator-mdproc
+[npm-img]: https://img.shields.io/npm/v/generator-mdproc.svg
+[travis-img]: https://img.shields.io/travis/mastersign/generator-mdproc/master.svg
+[travis-url]: https://travis-ci.org/mastersign/generator-mdproc
