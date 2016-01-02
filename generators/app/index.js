@@ -2,7 +2,6 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
-var process = require('process');
 
 var copy = function (that, templatePath, targetPath) {
 	that.fs.copy(
