@@ -4,7 +4,6 @@
 var path = require('path');
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
-var os = require('os');
 
 describe('mdproc:app', function () {
 	describe('Minimal', function () {
@@ -27,7 +26,7 @@ describe('mdproc:app', function () {
 				'package.json',
 				'.editorconfig',
 				'gulpfile.js',
-			'config/mainfiles',
+				'config/mainfiles',
 				'config/mdproc.json',
 				'config/graphs.json',
 				'LICENSE.md',
