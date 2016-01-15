@@ -5,10 +5,13 @@
 		"README.md",
 		"src/*.md"
 	],
-	"md2html_config": { },
-	"md2docx_config": { },
-	"md2pdf_config": { },
-	"image_files": [
+	"md2html_options": {
+		"theme": "<%= htmlTheme.toLowerCase() %>"
+	},
+	"md2docx_options": { },
+<% if (supportPdf) { %>	"md2tex_options": { },
+	"md2pdf_options": { },
+<% } %>	"image_files": [
 		"src/img/*",
 		"src/img-gen/*"
 	],

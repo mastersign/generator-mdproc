@@ -23,7 +23,7 @@
     "lazypipe": "^1.0.0",
     "lodash": "^3.0.0",
     "mdinclude": "^0.5.0",
-    "mdproc": "^0.2.0",
+    "mdproc": "^0.2.3",
     "mdquery": "^0.2.0",
     "mkdirp": "^0.5.0",
     "run-sequence": "^1.0.0"

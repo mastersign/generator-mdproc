@@ -74,6 +74,13 @@ module.exports = yeoman.generators.Base.extend({
 				message: 'Do you need support for PDF generation',
 				default: true,
 				store: true
+			},
+			{
+				type: 'list',
+				name: 'htmlTheme',
+				message: 'HTML theme',
+				choices: ['Default', 'Metro', 'Roboto', 'Science'],
+				default: 0
 			}
 		];
 

@@ -180,28 +180,28 @@ gulp.task('images:pdf', false, function (cb) {
 gulp.task('html', 'Build the HTML output', ['images:svg'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
-		.pipe(mdproc.md2html({ basePath: 'src' }))
+		.pipe(mdproc.md2html(_.assign({ basePath: 'src' }, cfg.md2html_options)))
 		.pipe(gulp.dest(cfg.target_dir));
 });
 
 gulp.task('docx', 'Build the DOCX output', ['images:png'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
-		.pipe(mdproc.md2docx())
+		.pipe(mdproc.md2docx(cfg.md2docx_options))
 		.pipe(gulp.dest(cfg.target_dir));
 });
 <% if (supportPdf) { %>
 gulp.task('tex', 'Build the TeX output', ['images:pdf'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: false }))
-		.pipe(mdproc.md2tex())
+		.pipe(mdproc.md2tex(cfg.md2tex_options))
 		.pipe(gulp.dest(cfg.target_dir));
 });
 
 gulp.task('pdf', 'Build the PDF output', ['images:pdf'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: false }))
-		.pipe(mdproc.md2pdf())
+		.pipe(mdproc.md2pdf(cfg.md2pdf_options))
 		.pipe(gulp.dest(cfg.target_dir));
 });
 <% } %>
