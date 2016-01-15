@@ -2,6 +2,8 @@
 
 var os = require('os');
 var path = require('path');
+var process = require('process');
+var exec = require('child_process').exec;
 var fs = require('fs');
 var del = require('del');
 var _ = require('lodash');
@@ -215,6 +217,13 @@ gulp.task('watch', 'Watch the source files and build automatically',
 	watch(cfg.watched_files,
 		{ verbose: true, readDelay: 200 },
 		function () { gulp.start('autobuild'); });
+});
+
+gulp.task('open-html', 'Show the HTML result of the main file in the default browser', function (cb) {
+	exec(path.resolve(path.join(process.cwd(), cfg.target_dir, cfg.main + '.html')), { }, function (err) {
+		// ignore errors
+		cb();
+	});
 });
 
 gulp.task('default', 'Build the output in the default formats', 

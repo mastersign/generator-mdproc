@@ -5,6 +5,7 @@
 		"README.md",
 		"src/*.md"
 	],
+	"main": "index",
 	"md2html_options": {
 		"theme": "<%= htmlTheme.toLowerCase() %>"
 	},

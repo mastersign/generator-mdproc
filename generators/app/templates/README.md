@@ -41,5 +41,7 @@ The following [Gulp] tasks are available.
   Creates a log entry for today.
 <% } %>* **clean**  
   Deletes all generated documents and images.
+* **open-html**  
+  Shows the HTML result from the main document in the default browser.
 
 [Gulp]: http://gulpjs.com "the streaming build system"
