@@ -196,7 +196,7 @@ gulp.task('docx', 'Build the DOCX output', ['images:png'], function () {
 gulp.task('tex', 'Build the TeX output', ['images:pdf'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: false }))
-		.pipe(mdproc.md2tex(cfg.md2tex_options))
+		.pipe(mdproc.md2tex(cfg.md2tex_options || cfg.md2pdf_options))
 		.pipe(gulp.dest(cfg.target_dir));
 });
 

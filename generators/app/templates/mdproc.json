@@ -10,8 +10,15 @@
 		"theme": "<%= htmlTheme.toLowerCase() %>"
 	},
 	"md2docx_options": { },
-<% if (supportPdf) { %>	"md2tex_options": { },
-	"md2pdf_options": { },
+<% if (supportPdf) { %>	"md2pdf_options": {
+		"vars": {
+			"fontsize": "11pt",
+			"papersize": "a4paper",
+			"linkColor": "ForestGreen",
+			"classoption": [],
+			"header-includes": [ "\\pagestyle{headings}" ]
+		}
+	},
 <% } %>	"image_files": [
 		"src/img/*",
 		"src/img-gen/*"
@@ -19,12 +26,5 @@
 	"watched_files": [
 		"README.md",
 		"src/**/*.md"
-	]<% if (supportPdf) { %>,
-	"latex_vars": {
-		"fontsize": "11pt",
-		"papersize": "a4paper",
-		"linkColor": "ForestGreen",
-		"classoption": [],
-		"header-includes": [ "\\pagestyle{headings}" ]
-	}<% } %>
+	]
 }
