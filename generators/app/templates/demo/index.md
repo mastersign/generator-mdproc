@@ -20,3 +20,5 @@ This document demonstrates various features of the _MdProc_ environment.
 <!-- #include inc/graph.md --> 
 
 <!-- #include inc/links.md -->
+
+<!-- #include inc/states.md -->

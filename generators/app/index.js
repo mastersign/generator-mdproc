@@ -129,6 +129,7 @@ module.exports = yeoman.generators.Base.extend({
 				copy(this, 'demo/graph.inc.md', 'src/inc/graph.md');
 				copy(this, 'demo/relations.inc.md', 'src/inc/relations.md');
 				copy(this, 'demo/links.inc.md', 'src/inc/links.md');
+				copy(this, 'demo/states.inc.md', 'src/inc/states.md');
 			} else if (this.props.projectType === 'Personal Log') {
 				copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');
 				copyTpl(this, 'graphs.json', 'config/graphs.json');
