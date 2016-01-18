@@ -7,7 +7,7 @@
 	],
 	"main": "index",
 	"md2html_options": {
-		"theme": "<%= htmlTheme.toLowerCase() %>"
+		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>"
 	},
 	"md2docx_options": { },
 <% if (supportPdf) { %>	"md2pdf_options": {
