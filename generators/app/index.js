@@ -1,5 +1,5 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 
@@ -16,7 +16,7 @@ var copyTpl = function (that, templatePath, targetPath) {
 		that.props);
 };
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = Generator.extend({
 	prompting: function () {
 		var done = this.async();
 
@@ -84,7 +84,7 @@ module.exports = yeoman.generators.Base.extend({
 			}
 		];
 
-		this.prompt(prompts, function (props) {
+		return this.prompt(prompts).then(function (props) {
 			props.projectSubTitle = 'Documentation';
 			props.needsGlob = false;
 			props.needsDateFormat = false;
@@ -105,6 +105,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	writing: {
+
 		app: function () {
 			copyTpl(this, '_package.json', 'package.json');
 			copy(this, '_yo-rc.json', '.yo-rc.json');
