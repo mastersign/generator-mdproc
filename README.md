@@ -2,6 +2,7 @@ generator-mdproc
 ================
 
 [![npm package][npm-img]][npm-url]
+[![dependency status][libraries-img]][libraries-url]
 [![build status][travis-img]][travis-url]
 
 > [Yeoman](http://yeoman.io) generator for a Markdown project using [_MdProc_](https://github.com/mastersign/mdproc)
@@ -51,5 +52,7 @@ MIT
 
 [npm-url]: https://www.npmjs.com/package/generator-mdproc
 [npm-img]: https://img.shields.io/npm/v/generator-mdproc.svg
+[libraries-url]: https://libraries.io/npm/generator-mdproc
+[libraries-img]: https://img.shields.io/librariesio/github/mastersign/generator-mdproc.svg
 [travis-img]: https://img.shields.io/travis/mastersign/generator-mdproc/master.svg
 [travis-url]: https://travis-ci.org/mastersign/generator-mdproc
