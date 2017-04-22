@@ -4,8 +4,7 @@ node_js:
   - 'stable'
   - '6.10'
   - '4.2'
-  - '0.12'
-  - '0.10'
+  - '4.0'
 before_script:
  - npm install -g mocha
 script: mocha
