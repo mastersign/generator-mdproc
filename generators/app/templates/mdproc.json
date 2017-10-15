@@ -17,15 +17,16 @@
 			"sansfont": "Segoe UI Light",
 			"monofont": "Consolas",
 			"papersize": "a4paper",
-			"page-geometry": {
-				"left": "2.5cm",
-				"right": "2.5cm",
-				"top": "1.5cm",
-				"bottom": "1cm",
-				"twoside": false
-			},
-			"long-toc": false,
-			"page-header": true,
+			"geometry": [
+				"left=2.5cm",
+				"right=2.5cm",
+				"top=1.5cm",
+				"bottom=1cm",
+				"includehead",
+				"includefoot"
+			],
+			"long-toc": "",
+			"fancy-headline": "1",
 			"linkColor": "ForestGreen",
 			"classoption": [],
 			"header-includes": [ "\\pagestyle{headings}" ]
