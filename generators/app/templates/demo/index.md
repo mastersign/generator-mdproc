@@ -17,7 +17,7 @@ This document demonstrates various features of the _MdProc_ environment.
 
 <!-- #include inc/query.md -->
 
-<!-- #include inc/graph.md --> 
+<!-- #include inc/graph.md -->
 
 <!-- #include inc/links.md -->
 
