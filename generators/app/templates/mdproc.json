@@ -13,7 +13,19 @@
 <% if (supportPdf) { %>	"md2pdf_options": {
 		"vars": {
 			"fontsize": "11pt",
+			"mainfont": "Segoe UI",
+			"sansfont": "Segoe UI Light",
+			"monofont": "Consolas",
 			"papersize": "a4paper",
+			"page-geometry": {
+				"left": "2.5cm",
+				"right": "2.5cm",
+				"top": "1.5cm",
+				"bottom": "1cm",
+				"twoside": false
+			},
+			"long-toc": false,
+			"page-header": true,
 			"linkColor": "ForestGreen",
 			"classoption": [],
 			"header-includes": [ "\\pagestyle{headings}" ]
