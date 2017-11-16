@@ -249,6 +249,7 @@ gulp.task('serve', 'Show HTML in default browser and refresh on changes', functi
     server.use(serverStatic(cfg.target_dir));
     server.listen(cfg.server_port);
     livereload.listen({ port: cfg.livereload_port });
+    gulp.start('open-main-in-browser');
     watch(cfg.watched_files,
         { verbose: true, readDelay: 200},
 		function () {
