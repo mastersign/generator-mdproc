@@ -39,7 +39,12 @@ The following [Gulp] tasks are available.
   Creates a log entry for today.
 <% } %>* **clean**  
   Deletes all generated documents and images.
-* **open-html**  
+* **open-main-filw**  
   Shows the HTML result from the main document in the default browser.
+* **serve**  
+  Runs a statric HTTP server for the output directory,
+  and starts a _livereload_ server for automatic reloads in the browser.
+* **open-main-in-browser**  
+  Shows the main file, delivered by _serve_, in the default browser.
 
 [Gulp]: http://gulpjs.com "the streaming build system"

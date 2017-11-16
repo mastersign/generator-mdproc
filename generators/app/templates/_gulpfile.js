@@ -3,13 +3,16 @@
 var os = require('os');
 var path = require('path');
 var process = require('process');
-var exec = require('child_process').exec;
 var fs = require('fs');
 var del = require('del');
 var _ = require('lodash');
 var mkdirp = require('mkdirp');
 var gulp = require('gulp-help')(require('gulp'));
 var watch = require('gulp-watch');
+var livereload = require('gulp-livereload');
+var connect = require('connect');
+var serverStatic = require('serve-static');
+var opn = require('opn');
 var rename = require('gulp-rename');
 var textTransform = require('gulp-text-simple');
 var lazypipe = require('lazypipe');
@@ -21,7 +24,7 @@ var mdquery = require('mdquery').transform;
 <% if (needsGlob) { %>var glob = require('glob');
 <% } if (needsDateFormat) { %>var dateFormat = require('dateformat');
 <% } if (needsExec) { %>var exec = require('gulp-exec');
-<% } %> 
+<% } %>
 
 var cfg = require('./config/mdproc.json');
 var graphs = require('./config/graphs.json');
@@ -160,8 +163,8 @@ gulp.task('dotex:pdf', false, function (cb) { return dotex(true, 'pdf', cb); });
 <% } %>
 gulp.task('images:svg', false, function (cb) {
 	runSequence(
-		['autograph:svg', 'dotex:svg'], 
-		'copy-images', 
+		['autograph:svg', 'dotex:svg'],
+		'copy-images',
 		cb);
 });
 
@@ -183,7 +186,8 @@ gulp.task('html', 'Build the HTML output', ['images:svg'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
 		.pipe(mdproc.md2html(_.assign({ basePath: 'src' }, cfg.md2html_options)))
-		.pipe(gulp.dest(cfg.target_dir));
+		.pipe(gulp.dest(cfg.target_dir))
+        .pipe(livereload());
 });
 
 gulp.task('docx', 'Build the DOCX output', ['images:png'], function () {
@@ -214,17 +218,45 @@ gulp.task('autobuild', false, cfg.default_formats);
 
 gulp.task('watch', 'Watch the source files and build automatically',
 	['autobuild'], function () {
+
+    setTerminalTitle('MdProc watch - ' + __dirname)
 	watch(cfg.watched_files,
 		{ verbose: true, readDelay: 200 },
-		function () { gulp.start('autobuild'); });
+		function () {
+            try {
+                gulp.start('autobuild');
+            } catch(err) {
+                console.log('ERROR: ' + err.message);
+            }
+        });
 });
 
-gulp.task('open-html', 'Show the HTML result of the main file in the default browser', function (cb) {
-	exec(path.resolve(path.join(process.cwd(), cfg.target_dir, cfg.main + '.html')), { }, function (err) {
-		// ignore errors
-		cb();
-	});
+gulp.task('open-main-file', 'Show the HTML result of the main file in the default browser', function () {
+	opn(path.resolve(path.join(process.cwd(), cfg.target_dir, cfg.main + '.html')),
+		cfg.default_browser ? { app: cfg.default_browser } : undefined);
 });
 
-gulp.task('default', 'Build the output in the default formats', 
+gulp.task('open-main-in-browser', 'Show the livereload URL of the main file in the default browser', function () {
+    opn('http://localhost:' + cfg.server_port + '/' + cfg.main + '.html',
+        cfg.default_browser ? { app: cfg.default_browser } : undefined);
+});
+
+gulp.task('serve', 'Show HTML in default browser and refresh on changes', function () {
+    setTerminalTitle('MdProc serve - ' + __dirname)
+    var server = connect();
+    server.use(serverStatic(cfg.target_dir));
+    server.listen(cfg.server_port);
+    livereload.listen();
+    watch(cfg.watched_files,
+        { verbose: true, readDelay: 200},
+		function () {
+            try {
+                gulp.start('autobuild');
+            } catch(err) {
+                console.log('ERROR: ' + err.message);
+            }
+        });
+});
+
+gulp.task('default', 'Build the output in the default formats',
 	['autobuild']);
