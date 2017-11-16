@@ -94,7 +94,7 @@ var markdownPipeline = function (opt) {
 		.pipe(mdquery)
 		.pipe(mdproc.references, { prefixCaption: opt.prefixCaption })
 		.pipe(mdproc.states)
-		.pipe(preProcess)
+		.pipe(preProcess, {cfg: cfg})
 		();
 };
 
