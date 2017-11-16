@@ -29,6 +29,7 @@ var mdquery = require('mdquery').transform;
 var cfg = require('./config/mdproc.json');
 var graphs = require('./config/graphs.json');
 var preProcess = textTransform(require('./config/preprocessing.js'));
+var htmlPostProcess = textTransform(require('./config/html-postprocessing.js'));
 
 <% if (projectType === 'Personal Log') { %>
 gulp.task('entry-for-today', false, function (cb) {
@@ -186,6 +187,7 @@ gulp.task('html', 'Build the HTML output', ['images:svg'], function () {
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
 		.pipe(mdproc.md2html(_.assign({ basePath: 'src' }, cfg.md2html_options)))
+		.pipe(htmlPostProcess({cfg: cfg}))
 		.pipe(gulp.dest(cfg.target_dir))
         .pipe(livereload());
 });
