@@ -39,5 +39,7 @@
 	"watched_files": [
 		"README.md",
 		"src/**/*.md"
-	]
+	],
+	"server_port": 3000,
+	"default_browser": null
 }
