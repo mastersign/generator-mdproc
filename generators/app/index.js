@@ -5,12 +5,12 @@ var yosay = require('yosay');
 
 var copy = function (that, templatePath, targetPath) {
 	that.fs.copy(
-		that.templatePath(templatePath), 
+		that.templatePath(templatePath),
 		that.destinationPath(targetPath));
 };
 
 var copyTpl = function (that, templatePath, targetPath) {
-	that.fs.copyTpl( 
+	that.fs.copyTpl(
 		that.templatePath(templatePath),
 		that.destinationPath(targetPath),
 		that.props);
@@ -112,7 +112,6 @@ module.exports = Generator.extend({
 			copy(this, '_gitignore', '.gitignore');
 			copy(this, 'editorconfig', '.editorconfig');
 			copy(this, 'sublime-project.json', this.props.projectName + '.sublime-project');
-			copy(this, 'vscode_tasks.json', '.vscode/tasks.json');
 		},
 
 		projectfiles: function () {

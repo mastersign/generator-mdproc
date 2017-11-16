@@ -32,7 +32,6 @@ describe('mdproc:app', function () {
 				'LICENSE.md',
 				'README.md',
 				'test-project-name.sublime-project',
-				'.vscode/tasks.json',
 				'src/index.md'
 			]);
 		});
