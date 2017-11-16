@@ -41,5 +41,6 @@
 		"src/**/*.md"
 	],
 	"server_port": 3000,
+	"livereload_port": 35730,
 	"default_browser": null
 }

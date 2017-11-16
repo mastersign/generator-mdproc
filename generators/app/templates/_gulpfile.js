@@ -242,13 +242,13 @@ gulp.task('open-main-in-browser', 'Show the livereload URL of the main file in t
         cfg.default_browser ? { app: cfg.default_browser } : undefined);
 });
 
-gulp.task('serve', 'Show HTML in default browser and refresh on changes',
-	['autobuild'], function () {
-
+gulp.task('serve', 'Show HTML in default browser and refresh on changes', function () {
+    cfg.injectLiveReload = true;
+    gulp.start('autobuild');
     var server = connect();
     server.use(serverStatic(cfg.target_dir));
     server.listen(cfg.server_port);
-    livereload.listen();
+    livereload.listen({ port: cfg.livereload_port });
     watch(cfg.watched_files,
         { verbose: true, readDelay: 200},
 		function () {
