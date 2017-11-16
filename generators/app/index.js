@@ -36,7 +36,7 @@ module.exports = Generator.extend({
 				type: 'input',
 				name: 'projectName',
 				message: 'Your project name',
-				default: this.appname,
+				default: this.appname.replace(' ', '-'),
 				validate: function (v) { return v.indexOf(' ') === -1; },
 				store: true
 			},
