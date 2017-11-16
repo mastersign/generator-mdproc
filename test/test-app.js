@@ -29,6 +29,8 @@ describe('mdproc:app', function () {
 				'config/mainfiles',
 				'config/mdproc.json',
 				'config/graphs.json',
+				'config/preprocessing.js',
+				'config/html-postprocessing.js',
 				'LICENSE.md',
 				'README.md',
 				'test-project-name.sublime-project',
