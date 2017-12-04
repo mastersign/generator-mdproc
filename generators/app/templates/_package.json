@@ -24,7 +24,7 @@
     "gulp-watch": "^4.0.0",
     "lazypipe": "^1.0.0",
     "lodash": "^4.0.0",
-    "mdinclude": "^0.5.0",
+    "mdinclude": "^0.6.0",
     "mdproc": "^0.2.10",
     "mdquery": "^0.2.0",
     "mkdirp": "^0.5.0",
