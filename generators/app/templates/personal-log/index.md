@@ -15,4 +15,4 @@ lang: en
 
 # Personal Log
 
-<!-- #include log/index.md -->
+<!-- #include log/20*/*/*.md -->

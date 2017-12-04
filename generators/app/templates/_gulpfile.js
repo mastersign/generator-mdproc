@@ -32,7 +32,7 @@ var preProcess = textTransform(require('./config/preprocessing.js'));
 var htmlPostProcess = textTransform(require('./config/html-postprocessing.js'));
 
 <% if (projectType === 'Personal Log') { %>
-gulp.task('entry-for-today', false, function (cb) {
+gulp.task('today', 'Create a new file for todays entries', function (cb) {
 	var now = new Date();
 	var yearDir = path.join('src', 'log', dateFormat(now, 'yyyy'));
 	var monthDir = path.join(yearDir, dateFormat(now, 'mm'));
@@ -55,34 +55,6 @@ gulp.task('entry-for-today', false, function (cb) {
 	});
 });
 
-gulp.task('update-log-index', false, function (cb) {
-	var logBase = path.join('src', 'log');
-	glob(logBase + '/????/??/????-??-??.md', function (err, files) {
-		if (err) {
-			cb(err);
-			return;
-		}
-		mkdirp(logBase, function (err) {
-			if (err) {
-				cb(err);
-				return;
-			}
-			fs.writeFile(path.join(logBase, 'index.md'),
-				_.map(files, function (f) {
-					return '<!-- #include ' + f.slice(logBase.length + 1) + ' -->';
-				}).join('\n'),
-				'utf8',
-				cb);
-		});
-	});
-});
-
-gulp.task('today', 'Create a new file for todays entries', function (cb) {
-	runSequence(
-		'entry-for-today',
-		'update-log-index',
-		cb);
-});
 <% } %>
 gulp.task('copy-images', false, function () {
 	return gulp.src(cfg.image_files, { base: 'src' })
