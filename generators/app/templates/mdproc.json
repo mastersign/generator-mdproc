@@ -2,7 +2,6 @@
 	"target_dir": "out",
 	"default_formats": [ "html" ],
 	"markdown_files": [
-		"README.md",
 		"src/*.md"
 	],
 	"main": "index",
