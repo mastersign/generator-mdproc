@@ -70,10 +70,25 @@ module.exports = Generator.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'supportCitation',
+				message: 'Do you need support for citations',
+				default: true,
+				store: true
+			},
+			{
+				type: 'confirm',
 				name: 'supportPdf',
 				message: 'Do you need support for PDF generation',
 				default: true,
 				store: true
+			},
+			{
+				type: 'confirm',
+				name: 'platformPdfFonts',
+				message: 'Do you want to use custom fonts in PDFs',
+				default: false,
+				store: true,
+				when: function (props) { return props.supportPdf; }
 			},
 			{
 				type: 'list',
@@ -137,7 +152,10 @@ module.exports = Generator.extend({
 				copy(this, 'demo/graph.inc.md', 'src/inc/graph.md');
 				copy(this, 'demo/relations.inc.md', 'src/inc/relations.md');
 				copy(this, 'demo/links.inc.md', 'src/inc/links.md');
-				copy(this, 'demo/states.inc.md', 'src/inc/states.md');
+				copy(this, 'demo/badges.inc.md', 'src/inc/badges.md');
+				if (this.props.supportCitation) {
+					copy(this, 'demo/citations.inc.md', 'src/inc/citations.md');
+				}
 			} else if (this.props.projectType === 'Personal Log') {
 				copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');
 				copyTpl(this, 'graphs.json', 'config/graphs.json');
@@ -151,6 +169,20 @@ module.exports = Generator.extend({
 				copyTpl(this, 'preprocessing.js', 'config/preprocessing.js');
 				copyTpl(this, 'html-postprocessing.js', 'config/html-postprocessing.js');
 				copyTpl(this, 'index.md', 'src/index.md');
+			}
+			if (this.props.supportCitation) {
+				copy(this, 'citation-styles/ieee-with-url.csl', 'res/ieee-with-url.csl');
+				copy(this, 'citation-styles/acm-sig-proceedings.csl', 'res/acm-sig-proceedings.csl');
+				copy(this, 'citation-styles/acm-sigchi-proceedings.csl', 'res/acm-sigchi-proceedings.csl');
+				copy(this, 'citation-styles/acm-siggraph.csl', 'res/acm-siggraph.csl');
+				copy(this, 'citation-styles/springer.csl', 'res/springer.csl');
+				copy(this, 'citation-styles/springer-numeric.csl', 'res/springer-numeric.csl');
+				copy(this, 'citation-styles/din-1505-2.csl', 'res/din-1505-2.csl');
+				copy(this, 'citation-styles/din-1505-2-alphanumeric.csl', 'res/din-1505-2-alphanumeric.csl');
+				copy(this, 'citation-styles/din-1505-2-numeric.csl', 'res/din-1505-2-numeric.csl');
+				copy(this, 'citation-styles/din-1505-2-numeric-alphabetical.csl', 'res/din-1505-2-numeric-alphabetical.csl');
+				copy(this, 'citation-styles/springer-numeric.csl', 'res/springer-numeric.csl');
+				copy(this, 'references.bib', 'src/references.bib');
 			}
 		}
 	},

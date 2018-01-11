@@ -5,17 +5,31 @@
 		"src/*.md"
 	],
 	"main": "index",
+	"options": {
+<% if (supportCitation) { %>	"citations": true,
+		"bibliography": [
+			"src/references.bib"
+		],
+		"citation_style": "res/acm-sigchi-proceedings.csl"
+<% } %>	},
 	"md2html_options": {
 		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>"
 	},
-	"md2docx_options": { },
+	"md2docx_options": {
+	},
 <% if (supportPdf) { %>	"md2pdf_options": {
 		"vars": {
 			"fontsize": "11pt",
-			"mainfont": "Segoe UI",
+<% if (platformPdfFonts && process.platform == 'win32') { %>			"mainfont": "Segoe UI",
 			"sansfont": "Segoe UI Light",
 			"monofont": "Consolas",
-			"papersize": "a4paper",
+<% } if (platformPdfFonts && process.platform == 'linux') { %>			"mainfont": "Liberation Serif",
+			"sansfont": "Liberation Sans",
+			"monofont": "Liberation Mono",
+<% } if (platformPdfFonts && process.platform == 'darwin') { %>			"mainfont": "Times",
+			"sansfont": "Helvetica",
+			"monofont": "Courier New",
+<% } %>			"papersize": "a4paper",
 			"geometry": [
 				"left=2.5cm",
 				"right=2.5cm",
@@ -26,7 +40,6 @@
 			],
 			"long-toc": "",
 			"fancy-headline": "1",
-			"linkColor": "ForestGreen",
 			"classoption": [],
 			"header-includes": [ "\\pagestyle{headings}" ]
 		}
