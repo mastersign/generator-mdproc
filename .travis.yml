@@ -2,9 +2,9 @@ sudo: false
 language: node_js
 node_js:
   - 'stable'
-  - '6.10'
-  - '4.2'
-  - '4.0'
+  - '8'
+  - '6'
+  - '4'
 before_script:
- - npm install -g mocha
+ - npm install -g mocha yarn
 script: mocha
