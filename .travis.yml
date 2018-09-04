@@ -4,7 +4,4 @@ node_js:
   - 'stable'
   - '8'
   - '6'
-  - '4'
-before_script:
- - npm install -g mocha yarn
 script: mocha

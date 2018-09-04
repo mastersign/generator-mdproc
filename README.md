@@ -7,7 +7,7 @@ generator-mdproc
 
 > [Yeoman](http://yeoman.io) generator for a Markdown project using [_MdProc_](https://github.com/mastersign/mdproc)
 
-Requires Node.js >= 4.0
+Requires Node.js >= 6.0
 
 ## Getting Started
 
