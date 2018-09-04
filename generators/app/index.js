@@ -16,8 +16,8 @@ var copyTpl = function (that, templatePath, targetPath) {
 		that.props);
 };
 
-module.exports = Generator.extend({
-	prompting: function () {
+module.exports = class extends Generator {
+	prompting () {
 		var done = this.async();
 
 		this.log(yosay(
@@ -108,7 +108,7 @@ module.exports = Generator.extend({
 			if (props.projectType === 'Demo') {
 				props.projectSubTitle = 'MdProc Features';
 			} else if (props.projectType === 'Personal Log') {
-				props.projectSubTitle = 'One Entry every Day'
+				props.projectSubTitle = 'One Entry every Day';
 				props.needsGlob = true;
 				props.needsDateFormat = true;
 			}
@@ -117,83 +117,80 @@ module.exports = Generator.extend({
 			// To access props later use this.props.someOption;
 			done();
 		}.bind(this));
-	},
+	}
 
-	writing: {
+	writing() {
 
-		app: function () {
-			copyTpl(this, '_package.json', 'package.json');
-			copy(this, '_yo-rc.json', '.yo-rc.json');
-			copy(this, '_gitignore', '.gitignore');
-			copy(this, 'editorconfig', '.editorconfig');
-			copy(this, 'sublime-project.json', this.props.projectName + '.sublime-project');
-		},
+		// app
+		copyTpl(this, '_package.json', 'package.json');
+		copy(this, '_yo-rc.json', '.yo-rc.json');
+		copy(this, '_gitignore', '.gitignore');
+		copy(this, 'editorconfig', '.editorconfig');
+		copy(this, 'sublime-project.json', this.props.projectName + '.sublime-project');
 
-		projectfiles: function () {
+		// project files
+		copyTpl(this, 'README.md', 'README.md');
+		copyTpl(this, 'LICENSE.md', 'LICENSE.md');
+		copyTpl(this, '_gulpfile.js', 'gulpfile.js');
+		copyTpl(this, 'mdproc.json', 'config/mdproc.json');
 
-			copyTpl(this, 'README.md', 'README.md');
-			copyTpl(this, 'LICENSE.md', 'LICENSE.md');
-			copyTpl(this, '_gulpfile.js', 'gulpfile.js');
-			copyTpl(this, 'mdproc.json', 'config/mdproc.json');
-
-			if (this.props.projectType === 'Demo') {
-				copyTpl(this, 'demo/mainfiles', 'config/mainfiles');
-				copyTpl(this, 'demo/graphs.json', 'config/graphs.json');
-				copyTpl(this, 'demo/preprocessing.js', 'config/preprocessing.js');
-				copyTpl(this, 'html-postprocessing.js', 'config/html-postprocessing.js');
-				copyTpl(this, 'demo/index.md', 'src/index.md');
-				copy(this, 'demo/includes.inc.md', 'src/inc/includes.md');
-				copy(this, 'demo/table1.csv', 'src/data/table1.csv');
-				copy(this, 'demo/example.js', 'src/code/example.js');
-				copy(this, 'demo/images.inc.md', 'src/inc/images.md');
-				copy(this, 'demo/workbench.jpg', 'src/img/workbench.jpg');
-				copy(this, 'demo/query.inc.md', 'src/inc/query.md');
-				copy(this, 'demo/data.inc.md', 'src/inc/data.md');
-				copy(this, 'demo/graph.inc.md', 'src/inc/graph.md');
-				copy(this, 'demo/relations.inc.md', 'src/inc/relations.md');
-				copy(this, 'demo/links.inc.md', 'src/inc/links.md');
-				copy(this, 'demo/badges.inc.md', 'src/inc/badges.md');
-				if (this.props.supportCitation) {
-					copy(this, 'demo/citations.inc.md', 'src/inc/citations.md');
-				}
-			} else if (this.props.projectType === 'Personal Log') {
-				copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');
-				copyTpl(this, 'graphs.json', 'config/graphs.json');
-				copyTpl(this, 'personal-log/preprocessing.js', 'config/preprocessing.js');
-				copyTpl(this, 'html-postprocessing.js', 'config/html-postprocessing.js');
-				copyTpl(this, 'personal-log/index.md', 'src/index.md');
-				copyTpl(this, 'personal-log/todo.md', 'src/inc/todo.md');
-			} else {
-				copyTpl(this, 'mainfiles', 'config/mainfiles');
-				copyTpl(this, 'graphs.json', 'config/graphs.json');
-				copyTpl(this, 'preprocessing.js', 'config/preprocessing.js');
-				copyTpl(this, 'html-postprocessing.js', 'config/html-postprocessing.js');
-				copyTpl(this, 'index.md', 'src/index.md');
-			}
+		if (this.props.projectType === 'Demo') {
+			copyTpl(this, 'demo/mainfiles', 'config/mainfiles');
+			copyTpl(this, 'demo/graphs.json', 'config/graphs.json');
+			copyTpl(this, 'demo/preprocessing.js', 'config/preprocessing.js');
+			copyTpl(this, 'html-postprocessing.js', 'config/html-postprocessing.js');
+			copyTpl(this, 'demo/index.md', 'src/index.md');
+			copy(this, 'demo/includes.inc.md', 'src/inc/includes.md');
+			copy(this, 'demo/table1.csv', 'src/data/table1.csv');
+			copy(this, 'demo/example.js', 'src/code/example.js');
+			copy(this, 'demo/images.inc.md', 'src/inc/images.md');
+			copy(this, 'demo/workbench.jpg', 'src/img/workbench.jpg');
+			copy(this, 'demo/query.inc.md', 'src/inc/query.md');
+			copy(this, 'demo/data.inc.md', 'src/inc/data.md');
+			copy(this, 'demo/graph.inc.md', 'src/inc/graph.md');
+			copy(this, 'demo/relations.inc.md', 'src/inc/relations.md');
+			copy(this, 'demo/links.inc.md', 'src/inc/links.md');
+			copy(this, 'demo/badges.inc.md', 'src/inc/badges.md');
 			if (this.props.supportCitation) {
-				copy(this, 'citation-styles/ieee-with-url.csl', 'res/ieee-with-url.csl');
-				copy(this, 'citation-styles/acm-sig-proceedings.csl', 'res/acm-sig-proceedings.csl');
-				copy(this, 'citation-styles/acm-sigchi-proceedings.csl', 'res/acm-sigchi-proceedings.csl');
-				copy(this, 'citation-styles/acm-siggraph.csl', 'res/acm-siggraph.csl');
-				copy(this, 'citation-styles/springer.csl', 'res/springer.csl');
-				copy(this, 'citation-styles/springer-numeric.csl', 'res/springer-numeric.csl');
-				copy(this, 'citation-styles/din-1505-2.csl', 'res/din-1505-2.csl');
-				copy(this, 'citation-styles/din-1505-2-alphanumeric.csl', 'res/din-1505-2-alphanumeric.csl');
-				copy(this, 'citation-styles/din-1505-2-numeric.csl', 'res/din-1505-2-numeric.csl');
-				copy(this, 'citation-styles/din-1505-2-numeric-alphabetical.csl', 'res/din-1505-2-numeric-alphabetical.csl');
-				copy(this, 'citation-styles/springer-numeric.csl', 'res/springer-numeric.csl');
-				copy(this, 'references.bib', 'src/references.bib');
+				copy(this, 'demo/citations.inc.md', 'src/inc/citations.md');
 			}
+		} else if (this.props.projectType === 'Personal Log') {
+			copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');
+			copyTpl(this, 'graphs.json', 'config/graphs.json');
+			copyTpl(this, 'personal-log/preprocessing.js', 'config/preprocessing.js');
+			copyTpl(this, 'html-postprocessing.js', 'config/html-postprocessing.js');
+			copyTpl(this, 'personal-log/index.md', 'src/index.md');
+			copyTpl(this, 'personal-log/todo.md', 'src/inc/todo.md');
+		} else {
+			copyTpl(this, 'mainfiles', 'config/mainfiles');
+			copyTpl(this, 'graphs.json', 'config/graphs.json');
+			copyTpl(this, 'preprocessing.js', 'config/preprocessing.js');
+			copyTpl(this, 'html-postprocessing.js', 'config/html-postprocessing.js');
+			copyTpl(this, 'index.md', 'src/index.md');
 		}
-	},
+		if (this.props.supportCitation) {
+			copy(this, 'citation-styles/ieee-with-url.csl', 'res/ieee-with-url.csl');
+			copy(this, 'citation-styles/acm-sig-proceedings.csl', 'res/acm-sig-proceedings.csl');
+			copy(this, 'citation-styles/acm-sigchi-proceedings.csl', 'res/acm-sigchi-proceedings.csl');
+			copy(this, 'citation-styles/acm-siggraph.csl', 'res/acm-siggraph.csl');
+			copy(this, 'citation-styles/springer.csl', 'res/springer.csl');
+			copy(this, 'citation-styles/springer-numeric.csl', 'res/springer-numeric.csl');
+			copy(this, 'citation-styles/din-1505-2.csl', 'res/din-1505-2.csl');
+			copy(this, 'citation-styles/din-1505-2-alphanumeric.csl', 'res/din-1505-2-alphanumeric.csl');
+			copy(this, 'citation-styles/din-1505-2-numeric.csl', 'res/din-1505-2-numeric.csl');
+			copy(this, 'citation-styles/din-1505-2-numeric-alphabetical.csl', 'res/din-1505-2-numeric-alphabetical.csl');
+			copy(this, 'citation-styles/springer-numeric.csl', 'res/springer-numeric.csl');
+			copy(this, 'references.bib', 'src/references.bib');
+		}
+	}
 
-	install: function () {
+	install () {
 		this.npmInstall();
-	},
+	}
 
-	end: function () {
+	end () {
 		if (this.props.projectType === 'Personal Log') {
 			this.spawnCommand('gulp', ['today']);
 		}
 	}
-});
+};

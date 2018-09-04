@@ -23,11 +23,12 @@
     "yeoman-generator",
     "mdproc",
     "pandoc",
-    "markdown"
+    "markdown",
+    "graphviz"
   ],
   "dependencies": {
-    "chalk": "^1.1.0",
-    "yeoman-generator": "^1.1.0",
+    "chalk": "^2.4.0",
+    "yeoman-generator": "^3.0.0",
     "yosay": "^2.0.0"
   },
   "devDependencies": {
