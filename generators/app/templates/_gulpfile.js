@@ -222,6 +222,7 @@ gulp.task('autobuild', false, loadConfig().default_formats);
 gulp.task('watch', 'Watch the source files and build automatically',
 	['autobuild'], function () {
 
+	setTerminalTitle('MdProc watch - ' + __dirname);
 	var cfg = loadConfig();
 	watch(cfg.watched_files,
 		{ verbose: true, readDelay: 200 },
@@ -247,6 +248,7 @@ gulp.task('open-main-in-browser', 'Show the livereload URL of the main file in t
 });
 
 gulp.task('serve', 'Show HTML in default browser and refresh on changes', function () {
+	setTerminalTitle('MdProc serve - ' + __dirname);
 	var cfg = loadConfig();
     injectLiveReload = true;
     gulp.start('autobuild');
