@@ -28,6 +28,7 @@ var mdquery = require('mdquery').transform;
 
 var preProcess = textTransform(require('./config/preprocessing.js'));
 var htmlPostProcess = textTransform(require('./config/html-postprocessing.js'));
+var injectLiveReload = false;
 
 <% if (projectType === 'Personal Log') { %>
 gulp.task('today', 'Create a new file for todays entries', function (cb) {
@@ -179,6 +180,7 @@ gulp.task('images:pdf', false, function (cb) {
 <% } %>
 gulp.task('html', 'Build the HTML output', ['images:svg'], function () {
 	var cfg = loadConfig();
+	cfg.injectLiveReload = injectLiveReload;
 	return gulp.src(cfg.markdown_files)
 		.pipe(markdownPipeline({ prefixCaption: true }))
 		.pipe(mdproc.md2html(_.assign({ basePath: 'src' }, cfg.options, cfg.md2html_options)))
@@ -246,7 +248,7 @@ gulp.task('open-main-in-browser', 'Show the livereload URL of the main file in t
 
 gulp.task('serve', 'Show HTML in default browser and refresh on changes', function () {
 	var cfg = loadConfig();
-    cfg.injectLiveReload = true;
+    injectLiveReload = true;
     gulp.start('autobuild');
     var server = connect();
     server.use(serverStatic(cfg.target_dir));
