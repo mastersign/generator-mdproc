@@ -251,8 +251,8 @@ gulp.task('pdf', 'Build the PDF output', gulp.series(imagesPdf, copyImages, pdf)
 gulp.task('autobuild', false, autobuild);
 gulp.task('watch', 'Watch the source files and build automatically', gulp.series(autobuild, watch));
 gulp.task('open-main-file', 'Show the HTML result of the main file in the default browser', openMainFile);
-gulp.task('open-main-in-browser', 'Show the livereload URL of the main file in the default browser', openLivereload);
 gulp.task('serve', 'Show HTML in default browser and refresh on changes', gulp.series(html, serve));
+gulp.task('open-livereload', 'Show the livereload URL of the main file in the default browser', openLivereload);
 
 <% if (projectType === 'Personal Log') { %>
 function today(cb) {
