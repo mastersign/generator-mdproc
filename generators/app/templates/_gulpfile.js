@@ -214,7 +214,7 @@ function serve() {
 	setTerminalTitle('MdProc serve - ' + __dirname);
 	const cfg = loadConfig();
 	injectLiveReload = true;
-	runTask(autobuild);
+	runTask(html);
 	const server = connect();
 	server.use(serverStatic(cfg.target_dir));
 	server.listen(cfg.server_port);
