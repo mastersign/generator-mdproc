@@ -196,7 +196,7 @@ function watch() {
 		{ verbose: true, readDelay: 200 },
 		function () {
 			try {
-				runTask(taskAutobuild);
+				runTask(autobuild);
 			} catch(err) {
 				console.log('ERROR: ' + err.message);
 			}
