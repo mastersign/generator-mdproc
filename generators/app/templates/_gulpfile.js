@@ -165,10 +165,10 @@ function pdf() {
 }
 <% } %>
 const formatTasks = {
-	'html': html,
-	'docx': docx,
-<% if (supportPdf) { %>	'tex': tex,
-	'pdf': pdf
+	'html': gulp.series(imagesSvg, copyImages, html),
+	'docx': gulp.series(imagesPng, copyImages, docx),
+<% if (supportPdf) { %>	'tex': gulp.series(imagesPdf, copyImages, tex),
+	'pdf': gulp.series(imagesPdf, copyImages, pdf)
 <% } %>};
 
 const all =
@@ -224,7 +224,7 @@ function serve() {
 		{ verbose: true, readDelay: 200},
 		function () {
 			try {
-				runTask(html);
+				runTask(gulp.series(imagesSvg, copyImages, html));
 			} catch(err) {
 				console.log('ERROR: ' + err.message);
 			}
@@ -251,8 +251,8 @@ gulp.task('pdf', 'Build the PDF output', gulp.series(imagesPdf, copyImages, pdf)
 gulp.task('autobuild', false, autobuild);
 gulp.task('watch', 'Watch the source files and build automatically', gulp.series(autobuild, watch));
 gulp.task('open-main-file', 'Show the HTML result of the main file in the default browser', openMainFile);
-gulp.task('serve', 'Show HTML in default browser and refresh on changes', gulp.series(html, serve));
 gulp.task('open-livereload', 'Show the livereload URL of the main file in the default browser', openLivereload);
+gulp.task('serve', 'Show HTML in default browser and refresh on changes', gulp.series(imagesSvg, copyImages, serve));
 
 <% if (projectType === 'Personal Log') { %>
 function today(cb) {
