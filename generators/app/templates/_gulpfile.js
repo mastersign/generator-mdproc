@@ -219,7 +219,7 @@ function serve() {
 	server.use(serverStatic(cfg.target_dir));
 	server.listen(cfg.server_port);
 	livereload.listen({ port: cfg.livereload_port });
-	setTimeout(function () { runTask(openLivereload); });
+	setTimeout(function () { runTask(openLivereload); }, 1000);
 	return gulpWatch(cfg.watched_files,
 		{ verbose: true, readDelay: 200},
 		function () {
