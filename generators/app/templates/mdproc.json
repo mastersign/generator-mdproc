@@ -7,7 +7,7 @@
 	"main": "index",
 	"options": {
 		"debug": false,
-<% if (supportCitation) { %>	"citations": true,
+<% if (supportCitation) { %>		"citations": true,
 		"bibliography": [
 			"src/references.bib"
 		],
