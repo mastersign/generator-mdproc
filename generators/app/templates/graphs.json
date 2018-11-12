@@ -1,4 +1,8 @@
 {
+	"options": {
+		"debug": false,
+		"imgResolution": 300
+	},
 	"autograph": {
 		"sources": [],
 		"target": "src/img-gen"

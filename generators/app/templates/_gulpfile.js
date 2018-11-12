@@ -63,9 +63,11 @@ function graphextract(prefixCaption, imgFormat, cb) {
 	var graphs = loadGraphs();
 	if (graphs.autograph.sources.length > 0) {
 		var tasks = _.map(graphs.autograph.sources, function (g) {
-			var opt = _.assign(
+			var opt = _.defaultsDeep(
 				{ imgFormat: imgFormat },
-				g.options);
+				g.options,
+				graphs.autograph.options,
+				graphs.options);
 			return gulp.src(g.sourceFile)
 				.pipe(markdownPipeline({ prefixCaption: prefixCaption }))
 				.pipe(mdproc.autograph(opt))
@@ -82,9 +84,11 @@ function dotex(prefixCaption, imgFormat, cb) {
 	var graphs = loadGraphs();
 	if (graphs.dotex.sources.length) {
 		var tasks = _.map(graphs.dotex.sources, function (g) {
-			var opt = _.assign(
+			var opt = _.defaultsDeep(
 				{ imgFormat: imgFormat },
-				g.options);
+				g.options,
+				graphs.dotex.options,
+				graphs.options);
 			return gulp.src(g.sourceFile)
 				.pipe(markdownPipeline({ prefixCaption: prefixCaption }))
 				.pipe(mdproc.dotex(opt))

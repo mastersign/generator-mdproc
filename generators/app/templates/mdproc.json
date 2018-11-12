@@ -6,6 +6,7 @@
 	],
 	"main": "index",
 	"options": {
+		"debug": false,
 <% if (supportCitation) { %>	"citations": true,
 		"bibliography": [
 			"src/references.bib"
@@ -16,8 +17,10 @@
 		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>"
 	},
 	"md2docx_options": {
+		"template": null,
 	},
 <% if (supportPdf) { %>	"md2pdf_options": {
+		"template": null,
 		"vars": {
 			"fontsize": "11pt",
 <% if (platformPdfFonts && process.platform == 'win32') { %>			"mainfont": "Segoe UI",
