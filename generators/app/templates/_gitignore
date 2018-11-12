@@ -2,6 +2,6 @@
 /tmp
 /src/img-gen
 
-node_modules
+node_modules/
 
 *.sublime-workspace
