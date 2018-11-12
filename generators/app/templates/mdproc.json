@@ -17,7 +17,7 @@
 		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>"
 	},
 	"md2docx_options": {
-		"template": null,
+		"template": null
 	},
 <% if (supportPdf) { %>	"md2pdf_options": {
 		"template": null,
