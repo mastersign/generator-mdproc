@@ -14,10 +14,12 @@
 		"citation_style": "res/acm-sigchi-proceedings.csl"
 <% } %>	},
 	"md2html_options": {
-		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>"
+		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>",
+		"figure_term": "Figure"
 	},
 	"md2docx_options": {
-		"template": null
+		"template": null,
+		"figure_term": "Figure"
 	},
 <% if (supportPdf) { %>	"md2pdf_options": {
 		"template": null,

@@ -53,7 +53,10 @@ function markdownPipeline(opt) {
 	return lazypipe()
 		.pipe(mdinclude)
 		.pipe(mdquery)
-		.pipe(mdproc.references, { prefixCaption: opt.prefixCaption })
+        .pipe(mdproc.references, {
+        	prefixCaption: opt.prefixCaption,
+        	figureTerm: opt.figure_term
+        })
 		.pipe(mdproc.badges)
 		.pipe(preProcess, {cfg: cfg})
 		();
