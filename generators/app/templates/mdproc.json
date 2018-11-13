@@ -11,7 +11,7 @@
 			"src/references.bib"
 		],
 		"citation_style": "res/acm-sigchi-proceedings.csl",
-<% } %><		"figure_term": "Figure",
+<% } %>		"figure_term": "Figure",
 		"debug": false
 	},
 	"md2html_options": {
