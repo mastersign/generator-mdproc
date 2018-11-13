@@ -32,6 +32,7 @@
     "yosay": "^2.0.0"
   },
   "devDependencies": {
+    "command-exists": "^1.2.8",
     "mocha": "*",
     "yeoman-assert": "^3.1.0",
     "yeoman-test": "^1.9.0"

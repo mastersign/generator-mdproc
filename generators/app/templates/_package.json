@@ -8,6 +8,9 @@
     "name": "<%= authorName %>",
     "email": "<%= authorEmail %>"
   },
+  "scripts": {
+    "gulp": "gulp"
+  },
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "connect": "^3.6.0",
