@@ -6,20 +6,19 @@
 	],
 	"main": "index",
 	"options": {
-		"debug": false,
 <% if (supportCitation) { %>		"citations": true,
 		"bibliography": [
 			"src/references.bib"
 		],
-		"citation_style": "res/acm-sigchi-proceedings.csl"
-<% } %>	},
+		"citation_style": "res/acm-sigchi-proceedings.csl",
+<% } %><		"figure_term": "Figure",
+		"debug": false
+	},
 	"md2html_options": {
-		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>",
-		"figure_term": "Figure"
+		"theme": "<%= htmlTheme ? htmlTheme.toLowerCase() : 'default' %>"
 	},
 	"md2docx_options": {
-		"template": null,
-		"figure_term": "Figure"
+		"template": null
 	},
 <% if (supportPdf) { %>	"md2pdf_options": {
 		"template": null,
