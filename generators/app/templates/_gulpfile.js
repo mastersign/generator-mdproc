@@ -53,26 +53,26 @@ function markdownPipeline(opt) {
 	return lazypipe()
 		.pipe(mdinclude)
 		.pipe(mdquery)
-        .pipe(mdproc.references, {
-        	prefixCaption: opt.prefixCaption,
-        	figureTerm: opt.figure_term
-        })
+		.pipe(mdproc.references, {
+			prefixCaption: opt.useFigureTerm,
+			figureTerm: opt.figure_term
+		})
 		.pipe(mdproc.badges)
 		.pipe(preProcess, {cfg: cfg})
 		();
 }
 
-function graphextract(prefixCaption, imgFormat, cb) {
+function graphextract(useFigureTerm, imgFormat, cb) {
 	var graphs = loadGraphs();
 	if (graphs.autograph.sources.length > 0) {
 		var tasks = _.map(graphs.autograph.sources, function (g) {
 			var opt = _.defaultsDeep(
-				{ imgFormat: imgFormat },
+				{ imgFormat: imgFormat, useFigureTerm: useFigureTerm },
 				g.options,
 				graphs.autograph.options,
 				graphs.options);
 			return gulp.src(g.sourceFile)
-				.pipe(markdownPipeline({ prefixCaption: prefixCaption }))
+				.pipe(markdownPipeline(opt))
 				.pipe(mdproc.autograph(opt))
 				.pipe(rename({ basename: g.name }))
 				.pipe(gulp.dest(graphs.autograph.target));
@@ -83,17 +83,17 @@ function graphextract(prefixCaption, imgFormat, cb) {
 	}
 }
 
-function dotex(prefixCaption, imgFormat, cb) {
+function dotex(useFigureTerm, imgFormat, cb) {
 	var graphs = loadGraphs();
 	if (graphs.dotex.sources.length) {
 		var tasks = _.map(graphs.dotex.sources, function (g) {
 			var opt = _.defaultsDeep(
-				{ imgFormat: imgFormat },
+				{ imgFormat: imgFormat, useFigureTerm: useFigureTerm },
 				g.options,
 				graphs.dotex.options,
 				graphs.options);
 			return gulp.src(g.sourceFile)
-				.pipe(markdownPipeline({ prefixCaption: prefixCaption }))
+				.pipe(markdownPipeline(opt))
 				.pipe(mdproc.dotex(opt))
 				.pipe(rename({ basename: g.name }))
 				.pipe(gulp.dest(graphs.dotex.target));
@@ -139,9 +139,13 @@ const imagesPdf = gulp.parallel(autographPdf, dotexPdf);
 function html() {
 	var cfg = loadConfig();
 	cfg.injectLiveReload = injectLiveReload;
+	var opt = _.defaultsDeep(
+		{ basePath: 'src', useFigureTerm: true },
+		cfg.md2html_options,
+		cfg.options);
 	return gulp.src(cfg.markdown_files)
-		.pipe(markdownPipeline({ prefixCaption: true }))
-		.pipe(mdproc.md2html(_.assign({ basePath: 'src' }, cfg.options, cfg.md2html_options)))
+		.pipe(markdownPipeline(opt))
+		.pipe(mdproc.md2html(opt))
 		.pipe(htmlPostProcess({cfg: cfg}))
 		.pipe(gulp.dest(cfg.target_dir))
 		.pipe(livereload());
@@ -149,25 +153,37 @@ function html() {
 
 function docx() {
 	var cfg = loadConfig();
+	var opt = _.defaultsDeep(
+		{ useFigureTerm: true },
+		cfg.md2docx_options,
+		cfg.options);
 	return gulp.src(cfg.markdown_files)
-		.pipe(markdownPipeline({ prefixCaption: true }))
-		.pipe(mdproc.md2docx(_.assign({}, cfg.options, cfg.md2docx_options)))
+		.pipe(markdownPipeline(opt))
+		.pipe(mdproc.md2docx(opt))
 		.pipe(gulp.dest(cfg.target_dir));
 }
 <% if (supportPdf) { %>
 function tex() {
 	var cfg = loadConfig();
+	var opt = _.defaultsDeep(
+		{ useFigureTerm: false },
+		cfg.md2tex_options || cfg.md2pdf_options,
+		cfg.options);
 	return gulp.src(cfg.markdown_files)
-		.pipe(markdownPipeline({ prefixCaption: false }))
-		.pipe(mdproc.md2tex(_.assign({}, cfg.options, cfg.md2tex_options || cfg.md2pdf_options)))
+		.pipe(markdownPipeline(opt))
+		.pipe(mdproc.md2tex(opt))
 		.pipe(gulp.dest(cfg.target_dir));
 }
 
 function pdf() {
 	var cfg = loadConfig();
+	var opt = _.defaultsDeep(
+		{ useFigureTerm: false },
+		cfg.md2pdf_options,
+		cfg.options);
 	return gulp.src(cfg.markdown_files)
-		.pipe(markdownPipeline({ prefixCaption: false }))
-		.pipe(mdproc.md2pdf(_.assign({}, cfg.options, cfg.md2pdf_options)))
+		.pipe(markdownPipeline(opt))
+		.pipe(mdproc.md2pdf(opt))
 		.pipe(gulp.dest(cfg.target_dir));
 }
 <% } %>
