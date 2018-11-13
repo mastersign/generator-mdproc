@@ -1,7 +1,18 @@
-sudo: false
-language: node_js
-node_js:
-  - 'stable'
-  - '8'
-  - '6'
-script: mocha
+sudo: true
+services:
+  - docker
+
+language: minimal
+
+before_install:
+  - docker pull mastersign/mdproc:html-cli
+  - docker run --rm -ti
+      -v `pwd`:/project -e LOCAL_USER_ID=`id -u $USER`
+      mastersign/mdproc:html-cli
+      /usr/local/bin/yarn install
+
+script:
+  - docker run --rm -ti
+      -v `pwd`:/project -e LOCAL_USER_ID=`id -u $USER`
+      mastersign/mdproc:html-cli
+      /usr/local/bin/yarn test
