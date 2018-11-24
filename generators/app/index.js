@@ -91,6 +91,13 @@ module.exports = class extends Generator {
 				when: function (props) { return props.supportPdf; }
 			},
 			{
+				type: 'confirm',
+				name: 'bibleQuotes',
+				message: 'Do you need support for Bible quotes',
+				default: false,
+				store: true
+			},
+			{
 				type: 'list',
 				name: 'htmlTheme',
 				message: 'HTML theme',
@@ -104,6 +111,7 @@ module.exports = class extends Generator {
 			props.needsGlob = false;
 			props.needsDateFormat = false;
 			props.needsExec = false;
+			props.needsMdBible = false;
 
 			if (props.projectType === 'Demo') {
 				props.projectSubTitle = 'MdProc Features';
@@ -111,6 +119,9 @@ module.exports = class extends Generator {
 				props.projectSubTitle = 'One Entry every Day';
 				props.needsGlob = true;
 				props.needsDateFormat = true;
+			}
+			if (props.bibleQuotes) {
+				props.needsMdBible = true;
 			}
 
 			this.props = props;
@@ -153,6 +164,9 @@ module.exports = class extends Generator {
 			copy(this, 'demo/badges.inc.md', 'src/inc/badges.md');
 			if (this.props.supportCitation) {
 				copy(this, 'demo/citations.inc.md', 'src/inc/citations.md');
+			}
+			if (this.props.bibleQuotes) {
+				copy(this, 'demo/biblequote.inc.md', 'src/inc/biblequote.md');
 			}
 		} else if (this.props.projectType === 'Personal Log') {
 			copyTpl(this, 'personal-log/mainfiles', 'config/mainfiles');

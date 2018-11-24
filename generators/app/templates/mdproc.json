@@ -52,7 +52,21 @@
 		"src/img/*",
 		"src/img-gen/*"
 	],
-	"watched_files": [
+<% if (bibleQuotes) { %>	"mdbible": {
+		"refLanguage": "en",
+		"language": "en",
+		"format": "markdown",
+		"cssClass": "mdbible",
+		"cssErrorClass": "mdbible-error",
+		"latexQuoteEnvironment": "quote",
+		"alwaysShowTranslation": false,
+		"fullTranslationName": false,
+		"useOriginalBookName": false,
+		"translateBookName": true,
+		"fullBookName": false,
+		"defaultTranslation": "KJV"
+	},
+<% } %>	"watched_files": [
 		"config/mdproc.json",
 		"config/graphs.json",
 		"src/**/*.md"

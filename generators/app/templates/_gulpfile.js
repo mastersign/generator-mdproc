@@ -25,8 +25,8 @@ const mdquery = require('mdquery').transform;
 <% if (needsGlob) { %>var glob = require('glob');
 <% } if (needsDateFormat) { %>var dateFormat = require('dateformat');
 <% } if (needsExec) { %>var exec = require('gulp-exec');
-<% } %>
-help(gulp, { hideEmpty: true });
+<% } if (needsMdBible) { %>var mdbible = require('mdbible');
+<% } %>help(gulp, { hideEmpty: true });
 
 const preProcess = textTransform(require('./config/preprocessing.js'));
 const htmlPostProcess = textTransform(require('./config/html-postprocessing.js'));
@@ -57,7 +57,8 @@ function markdownPipeline(opt) {
 			prefixCaption: opt.useFigureTerm,
 			figureTerm: opt.figure_term
 		})
-		.pipe(mdproc.badges)
+<% if (bibleQuotes) { %>		.pipe(mdbible, cfg.mdbible)
+<% } %>		.pipe(mdproc.badges)
 		.pipe(preProcess, {cfg: cfg})
 		();
 }

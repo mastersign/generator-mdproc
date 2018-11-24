@@ -27,6 +27,8 @@ This document demonstrates various features of the _MdProc_ environment.
 <!-- #include inc/images.md -->
 <% if (supportCitation) { %>
 <!-- #include inc/citations.md -->
+<% } %><% if (bibleQuotes) { %>
+<!-- #include inc/biblequote.md -->
 <% } %>
 <!-- #include inc/query.md -->
 
